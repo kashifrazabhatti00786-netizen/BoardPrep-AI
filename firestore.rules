@@ -1,0 +1,30 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper checks
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Users collection matching
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // Evaluated Answers collection matching
+    match /answers/{answerId} {
+      allow create: if isSignedIn();
+      allow read, update, delete: if isSignedIn() && resource.data.studentId == request.auth.uid;
+    }
+
+    // Support tickets matching
+    match /tickets/{ticketId} {
+      allow create: if true; // Permitted from contact page
+      allow read: if isSignedIn(); // Verified admins
+    }
+  }
+}

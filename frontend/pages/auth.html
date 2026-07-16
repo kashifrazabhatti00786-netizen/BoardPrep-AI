@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Authenticate | BoardPrep AI 2.0</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+
+  <!-- Firebase Client Web SDK CDNs (v9 Compat to keep it clean and robust) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 min-h-screen flex flex-col justify-between selection:bg-indigo-500">
+
+  <!-- Header -->
+  <header class="border-b border-gray-900 bg-gray-950/80 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="../index.html" class="flex items-center space-x-2">
+        <div class="w-8 h-8 rounded-lg bg-indigo-500 flex items-center justify-center font-bold text-base">B</div>
+        <span class="font-bold text-white">BoardPrep AI</span>
+      </a>
+      <a href="../index.html" class="text-xs text-gray-400 hover:text-white transition-colors">Back to Home</a>
+    </div>
+  </header>
+
+  <!-- Auth Card Container -->
+  <main class="max-w-md w-full mx-auto px-4 py-16 flex-grow flex items-center justify-center">
+    <div class="glass p-8 rounded-3xl border border-gray-900 w-full relative glow-effect overflow-hidden">
+
+      <!-- Tabs (Login vs SignUp) -->
+      <div class="flex border-b border-gray-800/80 mb-6">
+        <button id="tab-login" class="flex-1 pb-3 text-center text-sm font-bold border-b-2 border-indigo-500 text-white" onclick="switchAuthTab('login')">Sign In</button>
+        <button id="tab-signup" class="flex-1 pb-3 text-center text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-white transition-all" onclick="switchAuthTab('signup')">Sign Up</button>
+      </div>
+
+      <!-- Auth Error Container -->
+      <div id="auth-error-box" class="hidden mb-4 p-3 bg-rose-950/40 border border-rose-500/30 text-rose-400 rounded-lg text-xs"></div>
+
+      <!-- Main Form -->
+      <form id="auth-form" class="space-y-4">
+        <!-- Display Name Field (SignUp only) -->
+        <div id="field-name" class="hidden">
+          <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Full Name</label>
+          <input type="text" id="auth-name" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-indigo-500" placeholder="Ali Raza">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Email Address</label>
+          <input type="email" id="auth-email" required class="w-full bg-gray-900 border border-gray-800 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-indigo-500" placeholder="student@example.com">
+        </div>
+
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <label class="block text-xs font-bold uppercase text-gray-400">Password</label>
+            <a href="javascript:void(0)" id="btn-forgot" class="text-[10px] text-indigo-400 hover:underline" onclick="handleForgotPassword()">Forgot Password?</a>
+          </div>
+          <input type="password" id="auth-password" required class="w-full bg-gray-900 border border-gray-800 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-indigo-500" placeholder="••••••••">
+        </div>
+
+        <!-- Grade Selector (SignUp only) -->
+        <div id="field-board-grade" class="hidden grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Board</label>
+            <select id="auth-board" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-indigo-500">
+              <option value="Lahore">BISE Lahore</option>
+              <option value="Rawalpindi">BISE Rawalpindi</option>
+              <option value="Faisalabad">BISE Faisalabad</option>
+              <option value="Multan">BISE Multan</option>
+              <option value="Gujranwala">BISE Gujranwala</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Grade</label>
+            <select id="auth-grade" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-indigo-500">
+              <option value="Matric-9">9th Grade (Matric)</option>
+              <option value="Matric-10">10th Grade (Matric)</option>
+              <option value="FSc-1">11th Grade (Intermediate)</option>
+              <option value="FSc-2">12th Grade (Intermediate)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="btn-submit" class="w-full py-3.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-sm font-bold rounded-xl shadow-lg shadow-indigo-500/20 transition-all transform hover:-translate-y-0.5">
+          Sign In
+        </button>
+      </form>
+
+      <!-- Simulated or Local Demo Configuration Info -->
+      <div class="mt-6 border-t border-gray-900 pt-4 text-center">
+        <p class="text-xs text-gray-500">By continuing, you agree to our <a href="terms.html" class="text-gray-400 hover:underline">Terms of Service</a> & <a href="privacy.html" class="text-gray-400 hover:underline font-semibold">Privacy Policy</a>.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-gray-900 py-6 text-center text-xs text-gray-500">
+    &copy; 2024-2025 BoardPrep AI 2.0. All rights reserved.
+  </footer>
+
+  <script src="../assets/js/app.js"></script>
+  <script>
+    // Config Firebase using production environment placeholders safely configured in client window
+    const firebaseConfig = {
+      apiKey: "AIzaSyFakeKeyPlaceholderForClientSaaSOnly",
+      authDomain: "boardprep-ai.firebaseapp.com",
+      projectId: "boardprep-ai",
+      storageBucket: "boardprep-ai.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdef123"
+    };
+
+    // Initialize Firebase Compat
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+
+    let currentMode = "login";
+
+    // Read URL params to determine default screen state
+    window.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+      const mode = params.get("mode");
+      if (mode === "signup") {
+        switchAuthTab("signup");
+      } else {
+        switchAuthTab("login");
+      }
+    });
+
+    function switchAuthTab(mode) {
+      currentMode = mode;
+      const tabLogin = document.getElementById("tab-login");
+      const tabSignup = document.getElementById("tab-signup");
+      const fieldName = document.getElementById("field-name");
+      const fieldBoardGrade = document.getElementById("field-board-grade");
+      const btnSubmit = document.getElementById("btn-submit");
+      const btnForgot = document.getElementById("btn-forgot");
+
+      if (mode === "signup") {
+        tabLogin.className = "flex-1 pb-3 text-center text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-white transition-all";
+        tabSignup.className = "flex-1 pb-3 text-center text-sm font-bold border-b-2 border-indigo-500 text-white";
+        fieldName.classList.remove("hidden");
+        fieldBoardGrade.classList.remove("hidden");
+        btnForgot.classList.add("hidden");
+        btnSubmit.textContent = "Create Student Account";
+      } else {
+        tabLogin.className = "flex-1 pb-3 text-center text-sm font-bold border-b-2 border-indigo-500 text-white";
+        tabSignup.className = "flex-1 pb-3 text-center text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-white transition-all";
+        fieldName.classList.add("hidden");
+        fieldBoardGrade.classList.add("hidden");
+        btnForgot.classList.remove("hidden");
+        btnSubmit.textContent = "Sign In";
+      }
+    }
+
+    // Submit Action Router
+    document.getElementById("auth-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const errorBox = document.getElementById("auth-error-box");
+      errorBox.classList.add("hidden");
+
+      const email = document.getElementById("auth-email").value;
+      const password = document.getElementById("auth-password").value;
+
+      if (currentMode === "signup") {
+        const name = document.getElementById("auth-name").value;
+        const board = document.getElementById("auth-board").value;
+        const grade = document.getElementById("auth-grade").value;
+
+        // Create user logic
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            // Update Profile
+            return user.updateProfile({ displayName: name }).then(() => {
+              // Send Email Verification
+              user.sendEmailVerification();
+              showToast("Account registered! A verification email has been sent.", "success");
+
+              // Store user metadata simulated in LocalStorage / Auth Session
+              localStorage.setItem("boardprep_profile", JSON.stringify({ board, grade }));
+
+              setTimeout(() => {
+                window.location.href = "dashboard.html";
+              }, 1500);
+            });
+          })
+          .catch((error) => {
+            errorBox.textContent = error.message;
+            errorBox.classList.remove("hidden");
+          });
+      } else {
+        // Login Action
+        firebase.auth().signInWithEmailAndPassword(email, password)
+          .then((userCredential) => {
+            showToast("Successfully signed in!", "success");
+            setTimeout(() => {
+              window.location.href = "dashboard.html";
+            }, 1000);
+          })
+          .catch((error) => {
+            errorBox.textContent = error.message;
+            errorBox.classList.remove("hidden");
+          });
+      }
+    });
+
+    // Forgot Password Action
+    function handleForgotPassword() {
+      const email = document.getElementById("auth-email").value;
+      if (!email) {
+        showToast("Please enter your email address to recover your password.", "error");
+        return;
+      }
+      firebase.auth().sendPasswordResetEmail(email)
+        .then(() => {
+          showToast("Password reset email sent. Please check your inbox.", "success");
+        })
+        .catch((error) => {
+          showToast(error.message, "error");
+        });
+    }
+  </script>
+</body>
+</html>

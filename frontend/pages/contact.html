@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - BoardPrep AI 2.0</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body class="bg-gray-950 text-gray-100 min-h-screen flex flex-col justify-between">
+
+  <!-- Header -->
+  <header class="border-b border-gray-900 bg-gray-950/80 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="../index.html" class="flex items-center space-x-2">
+        <div class="w-8 h-8 rounded-lg bg-indigo-500 flex items-center justify-center font-bold text-base">B</div>
+        <span class="font-bold text-white">BoardPrep AI</span>
+      </a>
+      <a href="../index.html" class="text-xs text-gray-400 hover:text-white transition-colors">Back to Home</a>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <main class="max-w-2xl mx-auto px-4 py-12 flex-grow w-full">
+    <div class="glass p-8 rounded-2xl border border-gray-900 space-y-6">
+      <div class="space-y-2">
+        <h1 class="text-3xl font-extrabold text-white">Contact Our Support Team</h1>
+        <p class="text-sm text-gray-400">Have questions or found a bug? Send us a direct message and our operations desk will resolve it.</p>
+      </div>
+
+      <form id="contact-form" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Full Name</label>
+          <input type="text" id="contact-name" required class="w-full bg-gray-900 border border-gray-800 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-indigo-500" placeholder="Ahmad Khan">
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Email Address</label>
+          <input type="email" id="contact-email" required class="w-full bg-gray-900 border border-gray-800 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-indigo-500" placeholder="ahmad@example.com">
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Subject</label>
+          <select id="contact-subject" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-indigo-500">
+            <option value="billing">Billing & Premium Upgrades</option>
+            <option value="accuracy">Educational Content & Grading Feedback</option>
+            <option value="technical">Technical Bug or Login Issue</option>
+            <option value="general">General Inquiry</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase text-gray-400 mb-1">Message Description</label>
+          <textarea id="contact-message" rows="5" required class="w-full bg-gray-900 border border-gray-800 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-indigo-500" placeholder="Describe your query in detail..."></textarea>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-sm font-bold rounded-xl shadow-lg shadow-indigo-500/20 transition-all">
+          Send Message
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-gray-900 py-6 text-center text-xs text-gray-500">
+    &copy; 2024-2025 BoardPrep AI 2.0. All rights reserved.
+  </footer>
+
+  <!-- Script to simulate submitting support tickets -->
+  <script src="../assets/js/app.js"></script>
+  <script>
+    document.getElementById("contact-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const name = document.getElementById("contact-name").value;
+      const email = document.getElementById("contact-email").value;
+      const subject = document.getElementById("contact-subject").value;
+      const message = document.getElementById("contact-message").value;
+
+      // Simulated Firestore submit / API submit
+      showToast(`Thank you, ${name}! Your support ticket has been sent to our desk.`, "success");
+      document.getElementById("contact-form").reset();
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Command Center | BoardPrep AI 2.0</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+
+  <!-- Firebase Compat Client Web SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 min-h-screen flex flex-col md:flex-row">
+
+  <!-- Admin Sidebar -->
+  <aside class="w-full md:w-64 bg-gray-950 border-r border-gray-900 flex flex-col justify-between p-6">
+    <div class="space-y-8">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-rose-500 to-indigo-600 flex items-center justify-center font-bold text-xl">A</div>
+        <span class="text-lg font-bold text-white tracking-tight">BoardPrep Admin</span>
+      </div>
+
+      <nav class="space-y-2">
+        <button onclick="switchAdminTab('analytics')" id="nav-analytics" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl bg-rose-500/10 text-rose-400 font-bold text-sm transition-all text-left">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
+          <span>SaaS Analytics</span>
+        </button>
+        <button onclick="switchAdminTab('users')" id="nav-users" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white font-bold text-sm transition-all text-left">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+          <span>User Management</span>
+        </button>
+        <button onclick="switchAdminTab('plans')" id="nav-plans" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white font-bold text-sm transition-all text-left">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span>Plan Configurations</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Admin Footer -->
+    <div class="border-t border-gray-900 pt-6 mt-6 text-center">
+      <a href="../index.html" class="text-xs text-gray-500 hover:text-white transition-colors">Return to Landing</a>
+    </div>
+  </aside>
+
+  <!-- Admin Main Area -->
+  <main class="flex-grow p-6 md:p-10 space-y-8 overflow-y-auto max-h-screen">
+
+    <header class="flex justify-between items-center border-b border-gray-900 pb-6">
+      <div>
+        <h1 class="text-2xl font-black text-white">SaaS Administration Panel</h1>
+        <p class="text-xs text-rose-400 mt-1">Super Admin Role Active</p>
+      </div>
+    </header>
+
+    <!-- CONTENT MODULES -->
+
+    <!-- Tab 1: Analytics -->
+    <section id="admin-analytics-content" class="space-y-6">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div class="glass p-6 rounded-2xl border border-gray-900">
+          <span class="text-xs font-bold text-gray-400 block">TOTAL USERS</span>
+          <span class="text-3xl font-black text-white mt-2 block">10,482</span>
+          <span class="text-xs text-emerald-400 font-bold block mt-1">+14% this month</span>
+        </div>
+        <div class="glass p-6 rounded-2xl border border-gray-900">
+          <span class="text-xs font-bold text-gray-400 block">TOTAL REVENUE (MRR)</span>
+          <span class="text-3xl font-black text-white mt-2 block">Rs. 4.8M</span>
+          <span class="text-xs text-emerald-400 font-bold block mt-1">Consistent expansion</span>
+        </div>
+        <div class="glass p-6 rounded-2xl border border-gray-900">
+          <span class="text-xs font-bold text-gray-400 block">ANSWERS EVALUATED</span>
+          <span class="text-3xl font-black text-white mt-2 block">148,290</span>
+          <span class="text-xs text-rose-400 font-bold block mt-1">Gemini API usage safe</span>
+        </div>
+      </div>
+
+      <div class="glass p-8 rounded-2xl border border-gray-900">
+        <h3 class="text-base font-bold text-white mb-4">Interactive Performance Analysis</h3>
+        <p class="text-xs text-gray-400 mb-6">Real-time mapping of platform performance, database locks, and active student sessions.</p>
+        <div class="h-48 bg-gray-900/30 rounded-xl border border-gray-800 flex items-center justify-center">
+          <span class="text-xs text-gray-500 font-bold uppercase tracking-widest">Analytics visual graph interface</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 2: User List -->
+    <section id="admin-users-content" class="hidden space-y-6">
+      <div class="glass p-8 rounded-2xl border border-gray-900">
+        <div class="flex justify-between items-center mb-6">
+          <div>
+            <h3 class="text-base font-bold text-white">Registered Users Desk</h3>
+            <p class="text-xs text-gray-400 mt-1">Review active student sessions and adjust target plan properties manually.</p>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="border-b border-gray-800 text-gray-400 font-bold uppercase">
+                <th class="py-3 px-4">Student</th>
+                <th class="py-3 px-4">Contact</th>
+                <th class="py-3 px-4">Active Board</th>
+                <th class="py-3 px-4">Current Plan</th>
+                <th class="py-3 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-900 text-gray-300">
+              <tr class="hover:bg-gray-900/40 transition-colors">
+                <td class="py-4 px-4 font-bold text-white">Zainab Bibi</td>
+                <td class="py-4 px-4">zainab@example.com</td>
+                <td class="py-4 px-4">BISE Lahore (Matric 10)</td>
+                <td class="py-4 px-4"><span class="px-2.5 py-1 bg-indigo-500/10 text-indigo-400 rounded-lg text-[10px] font-bold">Premium Topper</span></td>
+                <td class="py-4 px-4 text-right">
+                  <button class="text-xs font-bold text-rose-500 hover:underline">Revoke Plan</button>
+                </td>
+              </tr>
+              <tr class="hover:bg-gray-900/40 transition-colors">
+                <td class="py-4 px-4 font-bold text-white">Asad Ali</td>
+                <td class="py-4 px-4">asad@example.com</td>
+                <td class="py-4 px-4">BISE Rawalpindi (FSc 12)</td>
+                <td class="py-4 px-4"><span class="px-2.5 py-1 bg-gray-800 text-gray-400 rounded-lg text-[10px] font-bold">Standard Free</span></td>
+                <td class="py-4 px-4 text-right">
+                  <button class="text-xs font-bold text-indigo-400 hover:underline">Upgrade Plan</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 3: Plans Config -->
+    <section id="admin-plans-content" class="hidden space-y-6">
+      <div class="glass p-8 rounded-2xl border border-gray-900 space-y-6">
+        <div>
+          <h3 class="text-base font-bold text-white">SaaS Pricing Structure Configuration</h3>
+          <p class="text-xs text-gray-400 mt-1">Configure localized pricing limits and limit models for individual subscription blocks.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-6 bg-gray-900/20 border border-gray-800 rounded-xl space-y-4">
+            <span class="text-xs font-bold text-indigo-400 uppercase tracking-widest block">Standard Free Tier Limits</span>
+            <div>
+              <label class="block text-[10px] text-gray-400 uppercase font-bold mb-1">Max Daily Evaluation Checks</label>
+              <input type="number" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2.5 text-xs text-white" value="5">
+            </div>
+            <div>
+              <label class="block text-[10px] text-gray-400 uppercase font-bold mb-1">Monthly Cost (PKR)</label>
+              <input type="number" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2.5 text-xs text-white" value="0">
+            </div>
+            <button class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-xs font-bold rounded-lg transition-all">Save Free Config</button>
+          </div>
+
+          <div class="p-6 bg-gray-900/20 border border-gray-800 rounded-xl space-y-4">
+            <span class="text-xs font-bold text-rose-400 uppercase tracking-widest block">Premium Topper limits</span>
+            <div>
+              <label class="block text-[10px] text-gray-400 uppercase font-bold mb-1">Max Daily Evaluation Checks</label>
+              <input type="number" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2.5 text-xs text-white" value="9999">
+            </div>
+            <div>
+              <label class="block text-[10px] text-gray-400 uppercase font-bold mb-1">Monthly Cost (PKR)</label>
+              <input type="number" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2.5 text-xs text-white" value="999">
+            </div>
+            <button class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-xs font-bold rounded-lg transition-all">Save Premium Config</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    function switchAdminTab(tabName) {
+      const tabs = ["analytics", "users", "plans"];
+      tabs.forEach(t => {
+        const tabEl = document.getElementById(`admin-${t}-content`);
+        const navEl = document.getElementById(`nav-${t}`);
+        if (t === tabName) {
+          tabEl.classList.remove("hidden");
+          navEl.className = "w-full flex items-center space-x-3 px-4 py-3 rounded-xl bg-rose-500/10 text-rose-400 font-bold text-sm transition-all text-left";
+        } else {
+          tabEl.classList.add("hidden");
+          navEl.className = "w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white font-bold text-sm transition-all text-left";
+        }
+      });
+    }
+  </script>
+</body>
+</html>
