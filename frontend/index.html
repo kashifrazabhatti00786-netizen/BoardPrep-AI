@@ -972,8 +972,82 @@
     const skipIntroBtn = document.getElementById("skip-intro-btn");
     const localSkipKey = "boardprep_skip_welcome_v2";
 
+    // Setup and run premium lightweight particle network on the loading overlay canvas
+    const loadingCanvas = document.getElementById("loading-bg-canvas");
+    let particlesActive = true;
+    if (loadingCanvas && localStorage.getItem(localSkipKey) !== "true") {
+      const ctx = loadingCanvas.getContext("2d");
+      let width = (loadingCanvas.width = window.innerWidth);
+      let height = (loadingCanvas.height = window.innerHeight);
+
+      window.addEventListener("resize", () => {
+        if (!loadingCanvas) return;
+        width = loadingCanvas.width = window.innerWidth;
+        height = loadingCanvas.height = window.innerHeight;
+      });
+
+      const particles = [];
+      const particleCount = 45;
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.8,
+          vy: (Math.random() - 0.5) * 0.8,
+          radius: Math.random() * 2.5 + 1.5,
+          color: i % 2 === 0 ? "rgba(79, 70, 229, 0.45)" : "rgba(6, 182, 212, 0.45)"
+        });
+      }
+
+      function drawParticles() {
+        if (!particlesActive) return;
+        ctx.clearRect(0, 0, width, height);
+
+        // Draw and update particle nodes
+        particles.forEach((p) => {
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < 0 || p.x > width) p.vx *= -1;
+          if (p.y < 0 || p.y > height) p.vy *= -1;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+        });
+
+        // Draw connecting clean network lines between close nodes
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const pi = particles[i];
+            const pj = particles[j];
+            const dist = Math.hypot(pi.x - pj.x, pi.y - pj.y);
+
+            if (dist < 110) {
+              ctx.beginPath();
+              ctx.moveTo(pi.x, pi.y);
+              ctx.lineTo(pj.x, pj.y);
+              ctx.strokeStyle = `rgba(139, 92, 246, ${0.12 * (1 - dist / 110)})`;
+              ctx.lineWidth = 0.8;
+              ctx.stroke();
+            }
+          }
+        }
+
+        requestAnimationFrame(drawParticles);
+      }
+      drawParticles();
+    }
+
     if (localStorage.getItem(localSkipKey) === "true") {
+      particlesActive = false;
       welcomeOverlay.remove();
+      // Ensure entrance animations and statistics counter ticking triggers immediately run
+      window.addEventListener("DOMContentLoaded", () => {
+        triggerHomeAnimations();
+      });
     }
 
     let progress = 0;
@@ -1015,6 +1089,7 @@
           delay: 1.5,
           ease: "power4.inOut",
           onComplete: () => {
+            particlesActive = false;
             localStorage.setItem(localSkipKey, "true");
             welcomeOverlay.remove();
             triggerHomeAnimations();
@@ -1024,6 +1099,7 @@
 
     if (skipIntroBtn) {
       skipIntroBtn.addEventListener("click", () => {
+        particlesActive = false;
         localStorage.setItem(localSkipKey, "true");
         welcomeOverlay.remove();
         triggerHomeAnimations();
@@ -1283,6 +1359,16 @@
 
         renderer.render(scene, camera);
       }
+
+      // Responsive resize handler to prevent aspect ratio warping
+      window.addEventListener("resize", () => {
+        const newWidth = bookContainer.clientWidth || 450;
+        const newHeight = bookContainer.clientHeight || 450;
+        camera.aspect = newWidth / newHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(newWidth, newHeight);
+      });
+
       animateBook();
     }
     try { init3DBook(); } catch (e) { document.getElementById("three-fallback").classList.remove("hidden"); }
@@ -1300,6 +1386,11 @@
       } else {
         ans.classList.add("hidden");
         icon.textContent = "+";
+      }
+
+      // Recalculate GSAP ScrollTrigger alignment thresholds dynamically when FAQ section heights shift
+      if (typeof ScrollTrigger !== "undefined") {
+        ScrollTrigger.refresh();
       }
     }
 
