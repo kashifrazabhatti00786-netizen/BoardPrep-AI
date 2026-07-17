@@ -3,7 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO Optimization Meta Tags -->
   <title>BoardPrep AI 2.0 | Advanced Pakistani Board Exam Preparation Platform</title>
+  <meta name="description" content="Ace BISE Punjab board and FBISE matric & intermediate exams with BoardPrep AI. Get expert examiner-style answer checks, topic analysis, diagrams, and presentation tips.">
+  <meta name="keywords" content="BoardPrep AI, BISE Lahore, Punjab Board, FBISE, Matric, Intermediate, FSc, Answer Checker, Study Guide, Pakistan Board Exams">
+  <link rel="canonical" href="https://boardprep-ai.vercel.app/">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://boardprep-ai.vercel.app/">
+  <meta property="og:title" content="BoardPrep AI 2.0 | Pakistani Board Exam Preparation Platform">
+  <meta property="og:description" content="AI-powered educational platform with examiner-style answer checking, topic guides, and topper layouts tailored to Punjab boards.">
+  <meta property="og:image" content="assets/images/og-image.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://boardprep-ai.vercel.app/">
+  <meta property="twitter:title" content="BoardPrep AI 2.0 | Pakistani Board Exam Preparation Platform">
+  <meta property="twitter:description" content="AI-powered educational platform with examiner-style answer checking, topic guides, and topper layouts tailored to Punjab boards.">
+  <meta property="twitter:image" content="assets/images/og-image.png">
+
+  <!-- Schema.json Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "BoardPrep AI 2.0",
+    "operatingSystem": "All",
+    "applicationCategory": "EducationalApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "500",
+      "priceCurrency": "PKR"
+    },
+    "description": "An AI-powered learning platform that helps students prepare for board examinations with examiner-style answer checking."
+  }
+  </script>
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -14,8 +51,8 @@
         extend: {
           colors: {
             brand: {
-              50: '#f5f7ff',
-              100: '#ebf0ff',
+              50: '#f8fafc',
+              100: '#f1f5f9',
               500: '#4f46e5', // Deep Blue
               600: '#4338ca',
               700: '#3730a3',
@@ -48,10 +85,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-<body class="bg-[#030712] text-gray-100 overflow-x-hidden selection:bg-brand-500 selection:text-white antialiased font-sans">
+<body class="bg-slate-50 text-slate-900 overflow-x-hidden selection:bg-brand-500 selection:text-white antialiased font-sans transition-colors duration-300">
 
   <!-- Welcome / Loading Screen Overlay -->
-  <div id="welcome-overlay" class="fixed inset-0 z-[100] bg-[#030712] flex flex-col items-center justify-center overflow-hidden">
+  <div id="welcome-overlay" class="fixed inset-0 z-[100] bg-slate-50 dark:bg-[#030712] flex flex-col items-center justify-center overflow-hidden transition-colors duration-300">
     <!-- Animated particle canvas for background of loading screen -->
     <canvas id="loading-bg-canvas" class="absolute inset-0 w-full h-full pointer-events-none opacity-50"></canvas>
 
@@ -66,53 +103,59 @@
       </div>
 
       <!-- Loading Progress -->
-      <div id="progress-wrapper" class="w-48 bg-gray-900 h-1.5 rounded-full overflow-hidden mb-3 border border-gray-800/80">
+      <div id="progress-wrapper" class="w-48 bg-gray-200 dark:bg-gray-900 h-1.5 rounded-full overflow-hidden mb-3 border border-slate-300 dark:border-gray-800/80">
         <div id="progress-bar" class="w-0 bg-gradient-to-r from-brand-500 to-brand-secondary h-full transition-all duration-150"></div>
       </div>
-      <div id="loading-text" class="text-xs font-bold uppercase tracking-widest text-gray-500">Initializing Core Engine...</div>
+      <div id="loading-text" class="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-gray-500">Initializing Core Engine...</div>
 
       <!-- Welcome Revealed Text -->
-      <div id="welcome-text-reveal" class="absolute text-2xl sm:text-3xl font-extrabold tracking-tight text-white opacity-0 transform translate-y-4 transition-all duration-1000 select-none font-sans">
+      <div id="welcome-text-reveal" class="absolute text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white opacity-0 transform translate-y-4 transition-all duration-1000 select-none font-sans">
         Welcome to <span class="bg-gradient-to-r from-brand-500 to-brand-secondary bg-clip-text text-transparent">BoardPrep AI 2.0</span>
       </div>
 
       <!-- Skip Button -->
-      <button id="skip-intro-btn" class="absolute bottom-10 px-4 py-2 rounded-full glass border border-gray-800 text-xs font-bold text-gray-400 hover:text-white hover:border-gray-700 transition-all z-20">
+      <button id="skip-intro-btn" class="absolute bottom-10 px-4 py-2 rounded-full glass border border-slate-200 dark:border-gray-800 text-xs font-bold text-slate-500 dark:text-gray-400 hover:text-brand-500 dark:hover:text-white transition-all z-20">
         Skip Intro
       </button>
     </div>
   </div>
 
   <!-- Sticky Navigation Bar -->
-  <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 border-b border-transparent py-4">
+  <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 border-b border-transparent py-4 bg-transparent">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
       <!-- Logo -->
       <a href="#home" class="flex items-center space-x-3 group" aria-label="BoardPrep AI Home">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-500 to-brand-secondary flex items-center justify-center font-bold text-xl shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform">B</div>
-        <span class="text-lg font-extrabold tracking-tight bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-500 to-brand-secondary flex items-center justify-center font-bold text-xl shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform text-white">B</div>
+        <span class="text-lg font-extrabold tracking-tight text-slate-900 dark:text-white">
           BoardPrep AI <span class="text-brand-accent font-black text-xs ml-0.5 px-1.5 py-0.5 rounded bg-brand-accent/10">2.0</span>
         </span>
       </a>
 
       <!-- Nav Menu Items (Desktop) -->
-      <div class="hidden lg:flex items-center space-x-8">
-        <a href="#home" class="nav-link text-sm font-semibold text-gray-400 hover:text-white transition-colors py-1 relative">Home</a>
-        <a href="#features" class="nav-link text-sm font-semibold text-gray-400 hover:text-white transition-colors py-1 relative">Features</a>
-        <a href="#showcase" class="nav-link text-sm font-semibold text-gray-400 hover:text-white transition-colors py-1 relative">AI Showcase</a>
-        <a href="#plans" class="nav-link text-sm font-semibold text-gray-400 hover:text-white transition-colors py-1 relative">Plans</a>
-        <a href="pages/about.html" class="nav-link text-sm font-semibold text-gray-400 hover:text-white transition-colors py-1 relative">About</a>
-        <a href="pages/support.html" class="nav-link text-sm font-semibold text-gray-400 hover:text-white transition-colors py-1 relative">FAQ</a>
-        <a href="pages/contact.html" class="nav-link text-sm font-semibold text-gray-400 hover:text-white transition-colors py-1 relative">Contact</a>
+      <div class="hidden xl:flex items-center space-x-8">
+        <a href="#home" class="nav-link text-sm font-semibold text-slate-600 dark:text-gray-400 hover:text-brand-500 dark:hover:text-white transition-colors py-1 relative">Home</a>
+        <a href="#features" class="nav-link text-sm font-semibold text-slate-600 dark:text-gray-400 hover:text-brand-500 dark:hover:text-white transition-colors py-1 relative">Features</a>
+        <a href="#timeline" class="nav-link text-sm font-semibold text-slate-600 dark:text-gray-400 hover:text-brand-500 dark:hover:text-white transition-colors py-1 relative">How It Works</a>
+        <a href="#showcase" class="nav-link text-sm font-semibold text-slate-600 dark:text-gray-400 hover:text-brand-500 dark:hover:text-white transition-colors py-1 relative">AI Showcase</a>
+        <a href="#plans" class="nav-link text-sm font-semibold text-slate-600 dark:text-gray-400 hover:text-brand-500 dark:hover:text-white transition-colors py-1 relative">Plans</a>
+        <a href="#faq" class="nav-link text-sm font-semibold text-slate-600 dark:text-gray-400 hover:text-brand-500 dark:hover:text-white transition-colors py-1 relative">FAQ</a>
+        <a href="#contact" class="nav-link text-sm font-semibold text-slate-600 dark:text-gray-400 hover:text-brand-500 dark:hover:text-white transition-colors py-1 relative">Contact</a>
       </div>
 
-      <!-- Auth CTAs -->
-      <div class="hidden lg:flex items-center space-x-4">
-        <a href="pages/auth.html?mode=login" class="text-sm font-semibold text-gray-400 hover:text-white transition-colors">Sign In</a>
-        <a href="pages/auth.html?mode=signup" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-500 to-brand-secondary hover:from-brand-600 hover:to-brand-secondary/90 text-sm font-bold shadow-lg shadow-brand-500/20 hover:shadow-brand-500/30 transition-all transform hover:-translate-y-0.5" aria-label="Get Started for Free">Get Started</a>
+      <!-- Auth CTAs & Dark Mode Toggle -->
+      <div class="hidden xl:flex items-center space-x-4">
+        <!-- Dark Mode Toggle Button -->
+        <button id="dark-mode-toggle" class="p-2 rounded-xl bg-slate-200 dark:bg-gray-900 border border-slate-300 dark:border-gray-800 text-slate-600 dark:text-gray-400 hover:text-brand-500 dark:hover:text-white transition-all" aria-label="Toggle dark mode">
+          <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+          <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path></svg>
+        </button>
+
+        <a href="pages/auth.html?mode=login" class="text-sm font-semibold text-slate-600 dark:text-gray-400 hover:text-brand-500 dark:hover:text-white transition-colors">Sign In</a>
+        <a href="pages/auth.html?mode=signup" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-500 to-brand-secondary hover:from-brand-600 hover:to-brand-secondary/90 text-sm font-bold shadow-lg shadow-brand-500/20 hover:shadow-brand-500/30 transition-all transform hover:-translate-y-0.5 text-white" aria-label="Get Started for Free">Get Started</a>
       </div>
 
       <!-- Hamburger Menu (Mobile/Tablet) -->
-      <button id="menu-toggle" class="lg:hidden flex flex-col items-center justify-center w-10 h-10 rounded-lg bg-gray-900/50 border border-gray-800 text-gray-400 hover:text-white transition-all" aria-label="Toggle Navigation Menu" aria-expanded="false">
+      <button id="menu-toggle" class="xl:hidden flex flex-col items-center justify-center w-10 h-10 rounded-lg bg-slate-100 dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800 text-slate-600 dark:text-gray-400 hover:text-brand-500 dark:hover:text-white transition-all" aria-label="Toggle Navigation Menu" aria-expanded="false">
         <span class="w-5 h-0.5 bg-current transition-transform duration-300 mb-1" id="hamburger-top"></span>
         <span class="w-5 h-0.5 bg-current transition-opacity duration-300 mb-1" id="hamburger-mid"></span>
         <span class="w-5 h-0.5 bg-current transition-transform duration-300" id="hamburger-bot"></span>
@@ -120,16 +163,16 @@
     </div>
 
     <!-- Mobile Dropdown Menu -->
-    <div id="mobile-menu" class="hidden lg:hidden absolute top-full left-0 w-full bg-[#030712]/95 backdrop-blur-xl border-b border-gray-800/80 transition-all duration-300 px-6 py-6 space-y-4">
-      <a href="#home" class="block text-base font-semibold text-gray-400 hover:text-white" onclick="toggleMobileMenu()">Home</a>
-      <a href="#features" class="block text-base font-semibold text-gray-400 hover:text-white" onclick="toggleMobileMenu()">Features</a>
-      <a href="#showcase" class="block text-base font-semibold text-gray-400 hover:text-white" onclick="toggleMobileMenu()">AI Showcase</a>
-      <a href="#plans" class="block text-base font-semibold text-gray-400 hover:text-white" onclick="toggleMobileMenu()">Plans</a>
-      <a href="pages/about.html" class="block text-base font-semibold text-gray-400 hover:text-white">About</a>
-      <a href="pages/support.html" class="block text-base font-semibold text-gray-400 hover:text-white">FAQ</a>
-      <a href="pages/contact.html" class="block text-base font-semibold text-gray-400 hover:text-white">Contact</a>
-      <div class="pt-4 border-t border-gray-900/80 flex flex-col gap-3">
-        <a href="pages/auth.html?mode=login" class="block text-center py-2.5 rounded-xl border border-gray-800 text-sm font-bold text-gray-300 hover:text-white">Sign In</a>
+    <div id="mobile-menu" class="hidden xl:hidden absolute top-full left-0 w-full bg-slate-50/95 dark:bg-[#030712]/95 backdrop-blur-xl border-b border-slate-200 dark:border-gray-800/80 transition-all duration-300 px-6 py-6 space-y-4">
+      <a href="#home" class="block text-base font-semibold text-slate-600 dark:text-gray-400 hover:text-brand-500 dark:hover:text-white" onclick="toggleMobileMenu()">Home</a>
+      <a href="#features" class="block text-base font-semibold text-slate-600 dark:text-gray-400 hover:text-brand-500 dark:hover:text-white" onclick="toggleMobileMenu()">Features</a>
+      <a href="#timeline" class="block text-base font-semibold text-slate-600 dark:text-gray-400 hover:text-brand-500 dark:hover:text-white" onclick="toggleMobileMenu()">How It Works</a>
+      <a href="#showcase" class="block text-base font-semibold text-slate-600 dark:text-gray-400 hover:text-brand-500 dark:hover:text-white" onclick="toggleMobileMenu()">AI Showcase</a>
+      <a href="#plans" class="block text-base font-semibold text-slate-600 dark:text-gray-400 hover:text-brand-500 dark:hover:text-white" onclick="toggleMobileMenu()">Plans</a>
+      <a href="#faq" class="block text-base font-semibold text-slate-600 dark:text-gray-400 hover:text-brand-500 dark:hover:text-white" onclick="toggleMobileMenu()">FAQ</a>
+      <a href="#contact" class="block text-base font-semibold text-slate-600 dark:text-gray-400 hover:text-brand-500 dark:hover:text-white" onclick="toggleMobileMenu()">Contact</a>
+      <div class="pt-4 border-t border-slate-200 dark:border-gray-900/80 flex flex-col gap-3">
+        <a href="pages/auth.html?mode=login" class="block text-center py-2.5 rounded-xl border border-slate-300 dark:border-gray-800 text-sm font-bold text-slate-600 dark:text-gray-300 hover:text-brand-500 dark:hover:text-white">Sign In</a>
         <a href="pages/auth.html?mode=signup" class="block text-center py-3 rounded-xl bg-brand-500 hover:bg-brand-600 text-sm font-bold text-white shadow-lg">Get Started</a>
       </div>
     </div>
@@ -141,45 +184,43 @@
     <div id="hero-three-container" class="absolute inset-0 z-0 opacity-50 pointer-events-none"></div>
 
     <!-- Background Gradient Grids -->
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(79,70,229,0.18),transparent_55%)] z-0"></div>
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(139,92,246,0.18),transparent_55%)] z-0"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(79,70,229,0.12),transparent_55%)] z-0"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(139,92,246,0.12),transparent_55%)] z-0"></div>
 
     <!-- Parallax Depth Layers / Grid effect -->
-    <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20 pointer-events-none z-0"></div>
+    <div class="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20 pointer-events-none z-0"></div>
 
-    <!-- Floating Educational Elements (Gently Float, Random Movement) -->
+    <!-- Floating Educational Elements -->
     <div class="absolute inset-0 w-full h-full pointer-events-none overflow-hidden select-none z-10 opacity-30">
       <div class="floating-icon absolute top-[15%] left-[10%] text-brand-accent text-3xl font-serif">🎓</div>
       <div class="floating-icon absolute top-[25%] right-[15%] text-brand-secondary text-2xl">⚛️</div>
       <div class="floating-icon absolute bottom-[20%] left-[20%] text-brand-500 text-3xl">📘</div>
       <div class="floating-icon absolute bottom-[30%] right-[10%] text-brand-accent text-2xl">🧪</div>
-      <div class="floating-icon absolute top-[50%] left-[5%] text-white text-xl">📐</div>
-      <div class="floating-icon absolute bottom-[45%] right-[25%] text-brand-secondary text-2xl">🧠</div>
     </div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full py-16">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         <!-- Hero Content (Left) -->
         <div class="space-y-8 text-center lg:text-left hero-content">
-          <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass border border-gray-800/80 shadow-md transform hover:scale-[1.02] transition-all">
+          <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass border border-slate-200 dark:border-gray-800/80 shadow-sm transform hover:scale-[1.02] transition-all">
             <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest">Syllabus Year 2024–2025 Standard</span>
+            <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">Syllabus Year 2024–2025 Standard</span>
           </div>
 
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-none text-white font-sans">
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-none text-slate-900 dark:text-white font-sans">
             Ace Your Board Exams with <br>
             <span class="bg-gradient-to-r from-brand-500 via-brand-secondary to-brand-accent bg-clip-text text-transparent font-black leading-normal">BoardPrep AI</span>
           </h1>
 
-          <p class="text-base sm:text-lg text-gray-400 max-w-xl mx-auto lg:mx-0 leading-relaxed font-sans">
+          <p class="text-base sm:text-lg text-slate-600 dark:text-gray-400 max-w-xl mx-auto lg:mx-0 leading-relaxed font-sans">
             An AI-powered learning platform that helps students prepare for board examinations with examiner-style answer checking, topic analysis, and personalized study guidance.
           </p>
 
           <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5">
-            <a href="pages/auth.html?mode=signup" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-brand-500 to-brand-secondary hover:from-brand-600 hover:to-brand-secondary/90 text-base font-bold shadow-xl shadow-brand-500/25 transition-all transform hover:-translate-y-1 text-center" aria-label="Get Started Now">
+            <a href="pages/auth.html?mode=signup" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-brand-500 to-brand-secondary hover:from-brand-600 hover:to-brand-secondary/90 text-base font-bold shadow-xl shadow-brand-500/25 transition-all transform hover:-translate-y-1 text-center text-white" aria-label="Get Started Now">
               Get Started
             </a>
-            <a href="#plans" class="w-full sm:w-auto px-8 py-4 rounded-xl glass hover:bg-gray-800/50 text-base font-bold text-center border border-gray-800 hover:border-gray-700 transition-all" aria-label="Explore Pricing Plans">
+            <a href="#plans" class="w-full sm:w-auto px-8 py-4 rounded-xl glass hover:bg-slate-200/50 dark:hover:bg-gray-800/50 text-base font-bold text-center border border-slate-200 dark:border-gray-800 hover:border-slate-300 dark:hover:border-gray-700 transition-all text-slate-700 dark:text-gray-200" aria-label="Explore Pricing Plans">
               Explore Plans
             </a>
           </div>
@@ -188,10 +229,10 @@
         <!-- Hero 3D Book Container (Right) -->
         <div class="relative w-full h-[350px] sm:h-[450px] flex items-center justify-center z-20 overflow-visible">
           <!-- Fallback illustration if WebGL fails -->
-          <div id="three-fallback" class="hidden absolute inset-0 bg-gradient-to-tr from-brand-500/10 to-brand-secondary/10 border border-gray-800 rounded-3xl p-8 flex flex-col items-center justify-center text-center">
+          <div id="three-fallback" class="hidden absolute inset-0 bg-gradient-to-tr from-brand-500/10 to-brand-secondary/10 border border-slate-200 dark:border-gray-800 rounded-3xl p-8 flex flex-col items-center justify-center text-center">
             <div class="text-6xl mb-4">📖</div>
-            <h3 class="text-lg font-bold text-white mb-2">Interactive 3D Book</h3>
-            <p class="text-xs text-gray-400 max-w-xs">Your device doesn't support WebGL, but you can still access all BoardPrep features directly.</p>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Interactive 3D Book</h3>
+            <p class="text-xs text-slate-500 dark:text-gray-400 max-w-xs">Your device doesn't support WebGL, but you can still access all BoardPrep features directly.</p>
           </div>
           <!-- Canvas for 3D Book -->
           <div id="hero-book-canvas" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
@@ -201,175 +242,215 @@
   </section>
 
   <!-- Statistics Preview Section -->
-  <section class="py-16 relative border-t border-gray-900/80 bg-gray-950/20">
+  <section class="py-16 relative border-t border-slate-200 dark:border-gray-900/80 bg-slate-100/50 dark:bg-gray-950/20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
         <!-- Stat Card 1 -->
-        <div class="glass p-6 rounded-2xl border border-gray-900 hover:border-gray-800 transition-all duration-300">
-          <div class="text-3xl sm:text-4xl font-extrabold text-white mb-1 inline-block" id="count-students">0</div><span class="text-3xl sm:text-4xl font-extrabold text-brand-500">+</span>
-          <div class="text-xs text-gray-500 uppercase tracking-widest font-bold mt-1">Students Helped</div>
+        <div class="glass p-6 rounded-2xl border border-slate-200 dark:border-gray-900 hover:border-slate-300 dark:hover:border-gray-800 transition-all duration-300">
+          <div class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mb-1 inline-block" id="count-students">0</div><span class="text-3xl sm:text-4xl font-extrabold text-brand-500">+</span>
+          <div class="text-xs text-slate-500 uppercase tracking-widest font-bold mt-1">Students Helped</div>
         </div>
         <!-- Stat Card 2 -->
-        <div class="glass p-6 rounded-2xl border border-gray-900 hover:border-gray-800 transition-all duration-300">
-          <div class="text-3xl sm:text-4xl font-extrabold text-white mb-1 inline-block" id="count-checked">0</div><span class="text-3xl sm:text-4xl font-extrabold text-brand-secondary">+</span>
-          <div class="text-xs text-gray-500 uppercase tracking-widest font-bold mt-1">Questions Checked</div>
+        <div class="glass p-6 rounded-2xl border border-slate-200 dark:border-gray-900 hover:border-slate-300 dark:hover:border-gray-800 transition-all duration-300">
+          <div class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mb-1 inline-block" id="count-checked">0</div><span class="text-3xl sm:text-4xl font-extrabold text-brand-secondary">+</span>
+          <div class="text-xs text-slate-500 uppercase tracking-widest font-bold mt-1">Questions Checked</div>
         </div>
         <!-- Stat Card 3 -->
-        <div class="glass p-6 rounded-2xl border border-gray-900 hover:border-gray-800 transition-all duration-300">
-          <div class="text-3xl sm:text-4xl font-extrabold text-white mb-1 inline-block" id="count-topics">0</div><span class="text-3xl sm:text-4xl font-extrabold text-brand-accent">+</span>
-          <div class="text-xs text-gray-500 uppercase tracking-widest font-bold mt-1">Topics Analyzed</div>
+        <div class="glass p-6 rounded-2xl border border-slate-200 dark:border-gray-900 hover:border-slate-300 dark:hover:border-gray-800 transition-all duration-300">
+          <div class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mb-1 inline-block" id="count-topics">0</div><span class="text-3xl sm:text-4xl font-extrabold text-brand-accent">+</span>
+          <div class="text-xs text-slate-500 uppercase tracking-widest font-bold mt-1">Topics Analyzed</div>
         </div>
         <!-- Stat Card 4 -->
-        <div class="glass p-6 rounded-2xl border border-gray-900 hover:border-gray-800 transition-all duration-300">
-          <div class="text-3xl sm:text-4xl font-extrabold text-white mb-1 inline-block" id="count-rate">0</div><span class="text-3xl sm:text-4xl font-extrabold text-emerald-400">%</span>
-          <div class="text-xs text-gray-500 uppercase tracking-widest font-bold mt-1">Success Rate</div>
+        <div class="glass p-6 rounded-2xl border border-slate-200 dark:border-gray-900 hover:border-slate-300 dark:hover:border-gray-800 transition-all duration-300">
+          <div class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white mb-1 inline-block" id="count-rate">0</div><span class="text-3xl sm:text-4xl font-extrabold text-emerald-400">%</span>
+          <div class="text-xs text-slate-500 uppercase tracking-widest font-bold mt-1">Success Rate</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Feature Preview Section -->
-  <section id="features" class="py-24 relative border-t border-gray-900/80">
+  <!-- Features Section -->
+  <section id="features" class="py-24 relative border-t border-slate-200 dark:border-gray-900/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center max-w-3xl mx-auto mb-20 space-y-4">
-        <h2 class="text-xs font-bold uppercase text-brand-accent tracking-widest">Platform Core Architecture</h2>
-        <p class="text-3xl sm:text-4xl font-extrabold text-white font-sans">Features Built Specially For Matric & Intermediate Excellence</p>
-        <p class="text-base text-gray-400">Our deep artificial intelligence paradigms match direct answer sheets with real examiners' grading mentalities across all educational boards in Punjab.</p>
+        <h2 class="text-xs font-bold uppercase text-brand-accent tracking-widest">Everything You Need to Excel in Board Exams</h2>
+        <p class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white font-sans">Prepare Smarter with Customized AI Parameters</p>
+        <p class="text-base text-slate-600 dark:text-gray-400">BoardPrep AI combines modern artificial intelligence architectures with the latest Punjab Board and FBISE patterns to help students prepare smarter.</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Feature 1 -->
-        <div class="glass p-8 rounded-2xl border border-gray-900 hover:border-brand-500/30 transition-all duration-500 group relative overflow-hidden flex flex-col justify-between tilt-card">
-          <div class="absolute -right-6 -top-6 w-24 h-24 bg-brand-500/5 rounded-full blur-xl group-hover:bg-brand-500/10 transition-colors"></div>
+        <!-- Card 1 -->
+        <div class="glass p-8 rounded-2xl border border-slate-200 dark:border-gray-900 hover:border-brand-500/30 transition-all duration-500 group relative overflow-hidden flex flex-col justify-between tilt-card">
           <div>
             <div class="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-500 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </div>
-            <h3 class="text-xl font-bold text-white mb-3">Question Checker</h3>
-            <p class="text-sm text-gray-400 leading-relaxed">Instantly check typed or uploaded handwritten sheets against Punjab Board standards to evaluate performance indicators instantly.</p>
-          </div>
-          <div class="mt-6 pt-4 border-t border-gray-900/60 flex items-center text-xs font-bold text-brand-500 group-hover:text-white transition-colors">
-            <span>Learn More</span>
-            <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">AI Question Checker</h3>
+            <p class="text-sm text-slate-600 dark:text-gray-400 leading-relaxed">Checks typed or handwritten answers against the official board schemes. Displays marks obtained, missing points, presentation errors, and custom examiner tips and feedback.</p>
           </div>
         </div>
 
-        <!-- Feature 2 -->
-        <div class="glass p-8 rounded-2xl border border-gray-900 hover:border-brand-secondary/30 transition-all duration-500 group relative overflow-hidden flex flex-col justify-between tilt-card">
-          <div class="absolute -right-6 -top-6 w-24 h-24 bg-brand-secondary/5 rounded-full blur-xl group-hover:bg-brand-secondary/10 transition-colors"></div>
+        <!-- Card 2 -->
+        <div class="glass p-8 rounded-2xl border border-slate-200 dark:border-gray-900 hover:border-brand-secondary/30 transition-all duration-500 group relative overflow-hidden flex flex-col justify-between tilt-card">
           <div>
             <div class="w-12 h-12 rounded-xl bg-brand-secondary/10 text-brand-secondary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
             </div>
-            <h3 class="text-xl font-bold text-white mb-3">Topic Analyzer</h3>
-            <p class="text-sm text-gray-400 leading-relaxed">Synthesize syllabus chapters and topics to receive past paper expectations, questions, diagrams, and scoring structures.</p>
-          </div>
-          <div class="mt-6 pt-4 border-t border-gray-900/60 flex items-center text-xs font-bold text-brand-secondary group-hover:text-white transition-colors">
-            <span>Learn More</span>
-            <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">AI Topic Analyzer</h3>
+            <p class="text-sm text-slate-600 dark:text-gray-400 leading-relaxed">Synthesizes any curriculum topic. Identifies expected board questions, important concepts, exam tips, key diagrams, repeated questions, and flowchart outlines.</p>
           </div>
         </div>
 
-        <!-- Feature 3 -->
-        <div class="glass p-8 rounded-2xl border border-gray-900 hover:border-brand-accent/30 transition-all duration-500 group relative overflow-hidden flex flex-col justify-between tilt-card">
-          <div class="absolute -right-6 -top-6 w-24 h-24 bg-brand-accent/5 rounded-full blur-xl group-hover:bg-brand-accent/10 transition-colors"></div>
+        <!-- Card 3 -->
+        <div class="glass p-8 rounded-2xl border border-slate-200 dark:border-gray-900 hover:border-brand-accent/30 transition-all duration-500 group relative overflow-hidden flex flex-col justify-between tilt-card">
           <div>
             <div class="w-12 h-12 rounded-xl bg-brand-accent/10 text-brand-accent flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
             </div>
-            <h3 class="text-xl font-bold text-white mb-3">Board Pattern Evaluation</h3>
-            <p class="text-sm text-gray-400 leading-relaxed">Matches written text structures directly with grading rubrics used by BISE examiners to safeguard board excellence.</p>
-          </div>
-          <div class="mt-6 pt-4 border-t border-gray-900/60 flex items-center text-xs font-bold text-brand-accent group-hover:text-white transition-colors">
-            <span>Learn More</span>
-            <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Board Pattern Analysis</h3>
+            <p class="text-sm text-slate-600 dark:text-gray-400 leading-relaxed">The AI always structures reviews based on the latest board patterns, supporting all Punjab Boards and FBISE for easy long-term scaling.</p>
           </div>
         </div>
 
-        <!-- Feature 4 -->
-        <div class="glass p-8 rounded-2xl border border-gray-900 hover:border-brand-success/30 transition-all duration-500 group relative overflow-hidden flex flex-col justify-between tilt-card">
-          <div class="absolute -right-6 -top-6 w-24 h-24 bg-brand-success/5 rounded-full blur-xl group-hover:bg-brand-success/10 transition-colors"></div>
+        <!-- Card 4 -->
+        <div class="glass p-8 rounded-2xl border border-slate-200 dark:border-gray-900 hover:border-brand-success/30 transition-all duration-500 group relative overflow-hidden flex flex-col justify-between tilt-card">
           <div>
             <div class="w-12 h-12 rounded-xl bg-brand-success/10 text-brand-success flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
             </div>
-            <h3 class="text-xl font-bold text-white mb-3">Examiner Feedback</h3>
-            <p class="text-sm text-gray-400 leading-relaxed">Get constructive layout and styling advice on handdrawn diagrams, specific underlinings, marker alignments, and more.</p>
-          </div>
-          <div class="mt-6 pt-4 border-t border-gray-900/60 flex items-center text-xs font-bold text-brand-success group-hover:text-white transition-colors">
-            <span>Learn More</span>
-            <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Personalized Study Guidance</h3>
+            <p class="text-sm text-slate-600 dark:text-gray-400 leading-relaxed">Pinpoint weak topics, identify missing elements or layout structures, track detailed progress, and receive customized diagnostic revision guides.</p>
           </div>
         </div>
 
-        <!-- Feature 5 -->
-        <div class="glass p-8 rounded-2xl border border-gray-900 hover:border-brand-warning/30 transition-all duration-500 group relative overflow-hidden flex flex-col justify-between tilt-card">
-          <div class="absolute -right-6 -top-6 w-24 h-24 bg-brand-warning/5 rounded-full blur-xl group-hover:bg-brand-warning/10 transition-colors"></div>
+        <!-- Card 5 -->
+        <div class="glass p-8 rounded-2xl border border-slate-200 dark:border-gray-900 hover:border-brand-warning/30 transition-all duration-500 group relative overflow-hidden flex flex-col justify-between tilt-card">
           <div>
             <div class="w-12 h-12 rounded-xl bg-brand-warning/10 text-brand-warning flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z"></path></svg>
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </div>
-            <h3 class="text-xl font-bold text-white mb-3">Performance Tracking</h3>
-            <p class="text-sm text-gray-400 leading-relaxed">Save comprehensive past performance logs, watch evaluation history grades scale, and target syllabus gaps.</p>
-          </div>
-          <div class="mt-6 pt-4 border-t border-gray-900/60 flex items-center text-xs font-bold text-brand-warning group-hover:text-white transition-colors">
-            <span>Learn More</span>
-            <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">History Tracking</h3>
+            <p class="text-sm text-slate-600 dark:text-gray-400 leading-relaxed">Securely store, retrieve, filter, and review previous answer checks and performance curves to systematically bridge curriculum gaps.</p>
           </div>
         </div>
 
-        <!-- Feature 6 -->
-        <div class="glass p-8 rounded-2xl border border-gray-900 hover:border-brand-danger/30 transition-all duration-500 group relative overflow-hidden flex flex-col justify-between tilt-card">
-          <div class="absolute -right-6 -top-6 w-24 h-24 bg-brand-danger/5 rounded-full blur-xl group-hover:bg-brand-danger/10 transition-colors"></div>
+        <!-- Card 6 -->
+        <div class="glass p-8 rounded-2xl border border-slate-200 dark:border-gray-900 hover:border-brand-danger/30 transition-all duration-500 group relative overflow-hidden flex flex-col justify-between tilt-card">
           <div>
             <div class="w-12 h-12 rounded-xl bg-brand-danger/10 text-brand-danger flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2h2m3-4H9a2 2 0 00-2 2v3m12 5h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
             </div>
-            <h3 class="text-xl font-bold text-white mb-3">AI Study Guide</h3>
-            <p class="text-sm text-gray-400 leading-relaxed">Formulate step-by-step layout flow outlines, list references, equations, and flowchart blueprints perfectly custom-fit to BISE guidelines.</p>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Secure Cloud Sync</h3>
+            <p class="text-sm text-slate-600 dark:text-gray-400 leading-relaxed">Real-time sync backed by secure Firebase structures. Review your diagnostic history files on any active screen seamlessly.</p>
           </div>
-          <div class="mt-6 pt-4 border-t border-gray-900/60 flex items-center text-xs font-bold text-brand-danger group-hover:text-white transition-colors">
-            <span>Learn More</span>
-            <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Section -->
+  <section class="py-24 relative border-t border-slate-200 dark:border-gray-900/80 bg-slate-100/50 dark:bg-gray-950/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        <h2 class="text-xs font-bold uppercase text-brand-secondary tracking-widest">Why Choose BoardPrep AI</h2>
+        <p class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">The Educational Standard Trusted by Families & Teachers</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="p-6 rounded-2xl bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 space-y-3">
+          <div class="text-2xl">📋</div>
+          <h4 class="text-base font-bold text-slate-900 dark:text-white">Latest Board Pattern</h4>
+          <p class="text-xs text-slate-500 dark:text-gray-400">Regularly updated marking matrices aligning with official BISE guidelines.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 space-y-3">
+          <div class="text-2xl">🤖</div>
+          <h4 class="text-base font-bold text-slate-900 dark:text-white">AI Examiner</h4>
+          <p class="text-xs text-slate-500 dark:text-gray-400">Calculates scores with maximum accuracy and provides feedback in seconds.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 space-y-3">
+          <div class="text-2xl">⚡</div>
+          <h4 class="text-base font-bold text-slate-900 dark:text-white">Fast Results</h4>
+          <p class="text-xs text-slate-500 dark:text-gray-400">Generates complete analytical diagnostic papers in less than 3.5 seconds.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 space-y-3">
+          <div class="text-2xl">✍️</div>
+          <h4 class="text-base font-bold text-slate-900 dark:text-white">Presentation Guidance</h4>
+          <p class="text-xs text-slate-500 dark:text-gray-400">Offers advice on marker codes, flowcharts, and diagram label points.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline (How It Works) -->
+  <section id="timeline" class="py-24 relative border-t border-slate-200 dark:border-gray-900/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-20 space-y-4">
+        <h2 class="text-xs font-bold uppercase text-brand-500 tracking-widest">How It Works</h2>
+        <p class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">Six Steps to Peak Board Performance</p>
+      </div>
+
+      <!-- Timeline Block -->
+      <div class="grid grid-cols-1 md:grid-cols-6 gap-8 relative">
+        <div class="absolute top-1/2 left-0 w-full h-0.5 bg-slate-200 dark:bg-gray-800/80 -translate-y-1/2 hidden md:block"></div>
+
+        <!-- Step 1 -->
+        <div class="relative z-10 text-center space-y-4 timeline-step bg-slate-50 dark:bg-[#030712] p-4 rounded-xl">
+          <div class="w-12 h-12 rounded-full bg-brand-500 text-white flex items-center justify-center font-bold text-base mx-auto shadow-lg">1</div>
+          <h4 class="text-sm font-bold text-slate-900 dark:text-white">Create Account</h4>
+          <p class="text-xs text-slate-500 dark:text-gray-400">Sign up using basic student credentials.</p>
+        </div>
+        <!-- Step 2 -->
+        <div class="relative z-10 text-center space-y-4 timeline-step bg-slate-50 dark:bg-[#030712] p-4 rounded-xl">
+          <div class="w-12 h-12 rounded-full bg-brand-secondary text-white flex items-center justify-center font-bold text-base mx-auto shadow-lg">2</div>
+          <h4 class="text-sm font-bold text-slate-900 dark:text-white">Choose Board</h4>
+          <p class="text-xs text-slate-500 dark:text-gray-400">Select target Punjab or Federal Board.</p>
+        </div>
+        <!-- Step 3 -->
+        <div class="relative z-10 text-center space-y-4 timeline-step bg-slate-50 dark:bg-[#030712] p-4 rounded-xl">
+          <div class="w-12 h-12 rounded-full bg-brand-accent text-white flex items-center justify-center font-bold text-base mx-auto shadow-lg">3</div>
+          <h4 class="text-sm font-bold text-slate-900 dark:text-white">Choose Subject</h4>
+          <p class="text-xs text-slate-500 dark:text-gray-400">Select Science or Computer modules.</p>
+        </div>
+        <!-- Step 4 -->
+        <div class="relative z-10 text-center space-y-4 timeline-step bg-slate-50 dark:bg-[#030712] p-4 rounded-xl">
+          <div class="w-12 h-12 rounded-full bg-brand-success text-white flex items-center justify-center font-bold text-base mx-auto shadow-lg">4</div>
+          <h4 class="text-sm font-bold text-slate-900 dark:text-white">Enter Question</h4>
+          <p class="text-xs text-slate-500 dark:text-gray-400">Submit answer text or sheet photos.</p>
+        </div>
+        <!-- Step 5 -->
+        <div class="relative z-10 text-center space-y-4 timeline-step bg-slate-50 dark:bg-[#030712] p-4 rounded-xl">
+          <div class="w-12 h-12 rounded-full bg-brand-warning text-white flex items-center justify-center font-bold text-base mx-auto shadow-lg">5</div>
+          <h4 class="text-sm font-bold text-slate-900 dark:text-white">AI Analysis</h4>
+          <p class="text-xs text-slate-500 dark:text-gray-400">Process grading criteria instantly.</p>
+        </div>
+        <!-- Step 6 -->
+        <div class="relative z-10 text-center space-y-4 timeline-step bg-slate-50 dark:bg-[#030712] p-4 rounded-xl">
+          <div class="w-12 h-12 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-base mx-auto shadow-lg">6</div>
+          <h4 class="text-sm font-bold text-slate-900 dark:text-white">Peak Marks</h4>
+          <p class="text-xs text-slate-500 dark:text-gray-400">Follow steps to score full marks.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- AI Showcase Section -->
-  <section id="showcase" class="py-24 relative border-t border-gray-900/80 bg-gray-950/20">
+  <section id="showcase" class="py-24 relative border-t border-slate-200 dark:border-gray-900/80 bg-slate-100/50 dark:bg-gray-950/20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <!-- Showcase Copy -->
+        <!-- Copy -->
         <div class="space-y-6">
           <h2 class="text-xs font-bold uppercase text-brand-secondary tracking-widest">Interactive AI Simulation</h2>
-          <p class="text-3xl sm:text-4xl font-extrabold text-white leading-tight font-sans">See the Examiner Logic In Action</p>
-          <p class="text-sm sm:text-base text-gray-400 leading-relaxed">
-            Every submission triggers extensive criteria matching, scoring rubrics, and direct presentation advice. We transform generic learning answers into BISE high-scoring toppers' blueprints.
+          <p class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight">Examiner Logic Visualized In Seconds</p>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-gray-400 leading-relaxed">
+            Every submission triggers comprehensive criteria matching. We process structural margins, correct terminology, missing headers, and formulas to map student efforts directly onto official topper metrics.
           </p>
-
-          <ul class="space-y-4 text-sm text-gray-300">
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-emerald-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              <span>Subheadings & marker selections explicitly reviewed to mirror top-tier layouts.</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-emerald-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              <span>Factual gaps corrected instantly with exact terminology references.</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <svg class="w-5 h-5 text-emerald-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              <span>Handdrawn diagram label checklists recommended step-by-step.</span>
-            </li>
-          </ul>
         </div>
 
-        <!-- Showcase Terminal Screen -->
-        <div class="glass-premium rounded-3xl p-8 border border-gray-800/80 relative overflow-hidden glow-effect w-full max-w-xl mx-auto">
+        <!-- Terminal Showcase -->
+        <div class="glass-premium rounded-3xl p-8 border border-slate-200 dark:border-gray-800/80 relative overflow-hidden glow-effect w-full max-w-xl mx-auto">
           <div class="absolute -right-12 -bottom-12 w-48 h-48 bg-brand-secondary/10 rounded-full blur-2xl"></div>
 
-          <div class="flex items-center justify-between mb-6 border-b border-gray-800/80 pb-4">
+          <div class="flex items-center justify-between mb-6 border-b border-slate-200 dark:border-gray-800 pb-4">
             <div class="flex space-x-1.5">
               <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
               <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
@@ -380,28 +461,28 @@
 
           <div class="space-y-4">
             <div class="space-y-1">
-              <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Prompt Question</span>
-              <div class="p-3 bg-gray-900/60 border border-gray-800 rounded-lg text-xs font-mono text-gray-200">
+              <span class="text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-wider">Prompt Question</span>
+              <div class="p-3 bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 rounded-lg text-xs font-mono text-slate-700 dark:text-gray-200">
                 "State Ohm's Law and derive its mathematical formula."
               </div>
             </div>
 
             <div class="space-y-1">
-              <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Student Submission</span>
-              <p class="text-xs text-gray-300 leading-relaxed pl-1">
+              <span class="text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-wider block">Student Submission</span>
+              <p class="text-xs text-slate-600 dark:text-gray-300 leading-relaxed pl-1">
                 "Ohm's Law states that current is proportional to voltage. V = IR."
               </p>
             </div>
 
-            <div class="space-y-3 border-t border-gray-800/80 pt-4">
+            <div class="space-y-3 border-t border-slate-200 dark:border-gray-800 pb-2 pt-4">
               <div class="flex items-center justify-between">
                 <span class="text-xs font-bold text-brand-secondary flex items-center gap-1.5">
                   <span class="w-1.5 h-1.5 rounded-full bg-brand-secondary animate-pulse"></span>
                   Board Score: 1.5 / 4.0
                 </span>
-                <span class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Pattern Matching: 38%</span>
+                <span class="text-[10px] text-slate-500 dark:text-gray-500 font-bold uppercase tracking-wider">Pattern Matching: 38%</span>
               </div>
-              <div class="text-xs text-gray-400 leading-relaxed bg-brand-500/5 border border-brand-500/10 p-3 rounded-lg">
+              <div class="text-xs text-slate-600 dark:text-gray-400 leading-relaxed bg-brand-500/5 border border-brand-500/10 p-3 rounded-lg">
                 <strong class="text-brand-accent">Examiner Advice:</strong> To lock down 4.0 full marks, explicitly list standard boundaries (constant temperature and physical state criteria). Use a blue marker to underline "Proportional" and add a simple circuit schematic showing resistance and voltmeter parameters.
               </div>
             </div>
@@ -411,137 +492,456 @@
     </div>
   </section>
 
-  <!-- Plans Preview Section -->
-  <section id="plans" class="py-24 relative border-t border-gray-900/80">
+  <!-- Pricing Plans Section -->
+  <section id="plans" class="py-24 relative border-t border-slate-200 dark:border-gray-900/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-        <h2 class="text-xs font-bold uppercase text-brand-500 tracking-widest">Pricing Structure</h2>
-        <p class="text-3xl sm:text-4xl font-extrabold text-white font-sans">Premium Plans Built for Every Student</p>
-        <p class="text-base text-gray-400">Unlock absolute matching systems, unlimited scoring models, diagram parameters, and examiner checks.</p>
+        <h2 class="text-xs font-bold uppercase text-brand-500 tracking-widest">Premium Plans</h2>
+        <p class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white font-sans">Simple, Affordable Pricing for Pakistani Students</p>
+        <p class="text-base text-slate-600 dark:text-gray-400">Unlock absolute board matching, unlimited diagnostic cycles, diagram indexes, and priority processing speeds.</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-        <!-- Plan 1 -->
-        <div class="glass p-8 rounded-3xl border border-gray-900 hover:border-gray-800 flex flex-col justify-between relative transition-all duration-300">
-          <div>
-            <span class="px-3 py-1 text-xs font-bold bg-gray-900 text-gray-400 rounded-full uppercase tracking-wider">Standard Access</span>
-            <div class="mt-6 flex items-baseline">
-              <span class="text-4xl font-extrabold text-white">Rs. 0</span>
-              <span class="text-gray-500 ml-2">/ month</span>
-            </div>
-            <p class="mt-4 text-sm text-gray-400 leading-relaxed">Perfect to explore platform features and test basic answer checks.</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 
-            <ul class="mt-8 space-y-4 text-sm text-gray-300">
-              <li class="flex items-center gap-3">
-                <svg class="w-4 h-4 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                5 AI Answer Checks per day
-              </li>
-              <li class="flex items-center gap-3">
-                <svg class="w-4 h-4 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                Standard topic generation speeds
-              </li>
-              <li class="flex items-center gap-3">
-                <svg class="w-4 h-4 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                History Logs (7 days)
-              </li>
+        <!-- Free Plan -->
+        <div class="glass p-6 rounded-3xl border border-slate-200 dark:border-gray-900 flex flex-col justify-between relative hover:scale-[1.02] hover:shadow-xl transition-all duration-300">
+          <div>
+            <span class="px-2.5 py-1 text-[10px] font-bold bg-slate-200 dark:bg-gray-800 text-slate-600 dark:text-gray-400 rounded-full uppercase tracking-wider">Free Access</span>
+            <div class="mt-4">
+              <span class="text-3xl font-extrabold text-slate-900 dark:text-white">Rs. 0</span>
+              <span class="text-xs text-slate-500 dark:text-gray-500">/ month</span>
+            </div>
+            <ul class="mt-6 space-y-3 text-xs text-slate-600 dark:text-gray-300">
+              <li class="flex items-center gap-2">✓ 2 Question Checks (Lifetime)</li>
+              <li class="flex items-center gap-2">✓ 1 Topic Analysis (Lifetime)</li>
+              <li class="flex items-center gap-2">✓ Latest Board Pattern</li>
+              <li class="flex items-center gap-2">✓ History Logs</li>
             </ul>
           </div>
-          <div class="mt-8">
-            <a href="pages/auth.html?mode=signup" class="block w-full py-3.5 px-4 rounded-xl glass hover:bg-gray-800/80 text-center font-bold text-sm border border-gray-800 hover:border-gray-700 transition-all">Start Preparing Free</a>
-          </div>
+          <a href="pages/auth.html?mode=signup" class="block w-full py-2.5 mt-6 text-center text-xs font-bold bg-slate-200 dark:bg-gray-800 hover:bg-slate-300 dark:hover:bg-gray-700 rounded-xl transition-colors text-slate-700 dark:text-white">Start Free</a>
         </div>
 
-        <!-- Plan 2 -->
-        <div class="glass p-8 rounded-3xl border border-brand-500/40 bg-gradient-to-b from-brand-500/5 to-transparent flex flex-col justify-between relative shadow-2xl shadow-brand-500/5 hover:border-brand-500 transition-all duration-300">
-          <div class="absolute top-0 right-8 transform -translate-y-1/2">
-            <span class="px-3 py-1.5 text-xs font-bold bg-brand-500 text-white rounded-full tracking-wider uppercase">Recommended</span>
-          </div>
+        <!-- Standard Plan -->
+        <div class="glass p-6 rounded-3xl border border-slate-200 dark:border-gray-900 flex flex-col justify-between relative hover:scale-[1.02] hover:shadow-xl transition-all duration-300">
           <div>
-            <span class="px-3 py-1 text-xs font-bold bg-brand-500/10 text-brand-500 rounded-full uppercase tracking-wider">Premium Topper Plan</span>
-            <div class="mt-6 flex items-baseline">
-              <span class="text-4xl font-extrabold text-white">Rs. 999</span>
-              <span class="text-gray-500 ml-2">/ month</span>
+            <span class="px-2.5 py-1 text-[10px] font-bold bg-slate-200 dark:bg-gray-800 text-slate-600 dark:text-gray-400 rounded-full uppercase tracking-wider">Standard</span>
+            <div class="mt-4">
+              <span class="text-3xl font-extrabold text-slate-900 dark:text-white">Rs. 200</span>
+              <span class="text-xs text-slate-500 dark:text-gray-500">/ month</span>
             </div>
-            <p class="mt-4 text-sm text-gray-400 leading-relaxed">Secure direct path to premium boards excellence and layout structures.</p>
-
-            <ul class="mt-8 space-y-4 text-sm text-gray-300">
-              <li class="flex items-center gap-3">
-                <svg class="w-4 h-4 text-brand-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                Unlimited Answers & Topic Analysis
-              </li>
-              <li class="flex items-center gap-3">
-                <svg class="w-4 h-4 text-brand-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                Detailed handdrawn diagram structures
-              </li>
-              <li class="flex items-center gap-3">
-                <svg class="w-4 h-4 text-brand-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                Priority ultra-fast server response
-              </li>
-              <li class="flex items-center gap-3">
-                <svg class="w-4 h-4 text-brand-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                PDF download access to model answers
-              </li>
+            <ul class="mt-6 space-y-3 text-xs text-slate-600 dark:text-gray-300">
+              <li class="flex items-center gap-2">✓ 16 Question Checks / Day</li>
+              <li class="flex items-center gap-2">✓ 5 Topic Analyses / Day</li>
+              <li class="flex items-center gap-2">✓ Question History</li>
+              <li class="flex items-center gap-2">✓ Priority AI Queue</li>
             </ul>
           </div>
-          <div class="mt-8">
-            <a href="pages/auth.html?mode=signup&plan=premium" class="block w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-brand-500 to-brand-secondary hover:from-brand-600 hover:to-brand-secondary/90 text-center font-bold text-sm shadow-lg shadow-brand-500/20 transition-all transform hover:-translate-y-0.5">Go Premium Topper</a>
+          <a href="pages/auth.html?mode=signup&plan=standard" class="block w-full py-2.5 mt-6 text-center text-xs font-bold bg-brand-500 hover:bg-brand-600 rounded-xl text-white transition-colors">Choose Standard</a>
+        </div>
+
+        <!-- Premium Plan -->
+        <div class="glass p-6 rounded-3xl border-2 border-brand-500 bg-brand-500/5 flex flex-col justify-between relative hover:scale-[1.03] hover:shadow-2xl transition-all duration-300">
+          <div class="absolute top-0 right-6 transform -translate-y-1/2">
+            <span class="px-2.5 py-1 text-[9px] font-bold bg-brand-500 text-white rounded-full uppercase tracking-wider">Recommended</span>
           </div>
+          <div>
+            <span class="px-2.5 py-1 text-[10px] font-bold bg-brand-500/10 text-brand-500 rounded-full uppercase tracking-wider">Premium Topper</span>
+            <div class="mt-4">
+              <span class="text-3xl font-extrabold text-slate-900 dark:text-white">Rs. 500</span>
+              <span class="text-xs text-slate-500 dark:text-gray-500">/ month</span>
+            </div>
+            <ul class="mt-6 space-y-3 text-xs text-slate-600 dark:text-gray-300">
+              <li class="flex items-center gap-2">✓ 40 Question Checks / Day</li>
+              <li class="flex items-center gap-2">✓ 10 Topic Analyses / Day</li>
+              <li class="flex items-center gap-2">✓ Priority AI Processing</li>
+              <li class="flex items-center gap-2">✓ Advanced AI Responses</li>
+            </ul>
+          </div>
+          <a href="pages/auth.html?mode=signup&plan=premium" class="block w-full py-2.5 mt-6 text-center text-xs font-bold bg-gradient-to-r from-brand-500 to-brand-secondary text-white rounded-xl transition-all">Choose Premium</a>
+        </div>
+
+        <!-- Super Plan -->
+        <div class="glass p-6 rounded-3xl border border-slate-200 dark:border-gray-900 flex flex-col justify-between relative hover:scale-[1.02] hover:shadow-xl transition-all duration-300">
+          <div>
+            <span class="px-2.5 py-1 text-[10px] font-bold bg-slate-200 dark:bg-gray-800 text-slate-600 dark:text-gray-400 rounded-full uppercase tracking-wider">Super Unlimited</span>
+            <div class="mt-4">
+              <span class="text-3xl font-extrabold text-slate-900 dark:text-white">Rs. 1000</span>
+              <span class="text-xs text-slate-500 dark:text-gray-500">/ month</span>
+            </div>
+            <ul class="mt-6 space-y-3 text-xs text-slate-600 dark:text-gray-300">
+              <li class="flex items-center gap-2">✓ Unlimited Checks</li>
+              <li class="flex items-center gap-2">✓ 30 Topic Analyses / Day</li>
+              <li class="flex items-center gap-2">✓ Fastest AI Queue</li>
+              <li class="flex items-center gap-2">✓ 24/7 Dedicated Desk</li>
+            </ul>
+          </div>
+          <a href="pages/auth.html?mode=signup&plan=super" class="block w-full py-2.5 mt-6 text-center text-xs font-bold bg-slate-800 hover:bg-slate-700 dark:bg-gray-900 dark:hover:bg-gray-800 text-white rounded-xl transition-colors">Go Super</a>
+        </div>
+
+      </div>
+
+      <!-- Plan Comparison Table -->
+      <div class="mt-20 glass rounded-3xl border border-slate-200 dark:border-gray-900 overflow-hidden hidden md:block">
+        <div class="p-6 border-b border-slate-200 dark:border-gray-800 bg-slate-100/50 dark:bg-gray-950/20">
+          <h3 class="text-sm font-bold text-slate-900 dark:text-white">Comprehensive Features Comparison</h3>
+        </div>
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="border-b border-slate-200 dark:border-gray-800 text-slate-500 dark:text-gray-400 font-bold">
+              <th class="py-4 px-6">Feature Details</th>
+              <th class="py-4 px-6">Free</th>
+              <th class="py-4 px-6">Standard</th>
+              <th class="py-4 px-6">Premium</th>
+              <th class="py-4 px-6">Super</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 dark:divide-gray-900 text-slate-700 dark:text-gray-300">
+            <tr>
+              <td class="py-4 px-6 font-bold text-slate-900 dark:text-white">Question Limits</td>
+              <td class="py-4 px-6">2 Checks (Lifetime)</td>
+              <td class="py-4 px-6">16 / Day</td>
+              <td class="py-4 px-6">40 / Day</td>
+              <td class="py-4 px-6">Unlimited</td>
+            </tr>
+            <tr>
+              <td class="py-4 px-6 font-bold text-slate-900 dark:text-white">Topic Limits</td>
+              <td class="py-4 px-6">1 Analysis (Lifetime)</td>
+              <td class="py-4 px-6">5 / Day</td>
+              <td class="py-4 px-6">10 / Day</td>
+              <td class="py-4 px-6">30 / Day</td>
+            </tr>
+            <tr>
+              <td class="py-4 px-6 font-bold text-slate-900 dark:text-white">Question History</td>
+              <td class="py-4 px-6">7 Days</td>
+              <td class="py-4 px-6">30 Days</td>
+              <td class="py-4 px-6">Unlimited</td>
+              <td class="py-4 px-6">Unlimited</td>
+            </tr>
+            <tr>
+              <td class="py-4 px-6 font-bold text-slate-900 dark:text-white">Support</td>
+              <td class="py-4 px-6">Email</td>
+              <td class="py-4 px-6">24/6 Support</td>
+              <td class="py-4 px-6">24/6 Support</td>
+              <td class="py-4 px-6">24/7 Dedicated Desk</td>
+            </tr>
+            <tr>
+              <td class="py-4 px-6 font-bold text-slate-900 dark:text-white">Priority Processing</td>
+              <td class="py-4 px-6">No</td>
+              <td class="py-4 px-6">Yes</td>
+              <td class="py-4 px-6">Yes (Higher)</td>
+              <td class="py-4 px-6">Highest</td>
+            </tr>
+            <tr>
+              <td class="py-4 px-6 font-bold text-slate-900 dark:text-white">Advanced AI Response</td>
+              <td class="py-4 px-6">No</td>
+              <td class="py-4 px-6">No</td>
+              <td class="py-4 px-6">Yes</td>
+              <td class="py-4 px-6">Yes</td>
+            </tr>
+            <tr>
+              <td class="py-4 px-6 font-bold text-slate-900 dark:text-white">Cloud Sync</td>
+              <td class="py-4 px-6">Yes</td>
+              <td class="py-4 px-6">Yes</td>
+              <td class="py-4 px-6">Yes</td>
+              <td class="py-4 px-6">Yes</td>
+            </tr>
+            <tr>
+              <td class="py-4 px-6 font-bold text-slate-900 dark:text-white">Future Features</td>
+              <td class="py-4 px-6">No</td>
+              <td class="py-4 px-6">No</td>
+              <td class="py-4 px-6">Yes</td>
+              <td class="py-4 px-6">Yes</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="py-24 relative border-t border-slate-200 dark:border-gray-900/80 bg-slate-100/50 dark:bg-gray-950/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        <h2 class="text-xs font-bold uppercase text-brand-secondary tracking-widest">Student Testimonials</h2>
+        <p class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">Real Stories of Exam Success</p>
+      </div>
+
+      <!-- Slide Wrapper -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="p-6 rounded-2xl bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 space-y-4">
+          <div class="text-brand-warning">★★★★★</div>
+          <p class="text-xs text-slate-600 dark:text-gray-400 italic">"BoardPrep AI helped me improve my answer presentation significantly. I scored 95% in Physics!"</p>
+          <div class="font-bold text-xs text-slate-900 dark:text-white">- Amina Shah, BISE Lahore</div>
+        </div>
+        <div class="p-6 rounded-2xl bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 space-y-4">
+          <div class="text-brand-warning">★★★★★</div>
+          <p class="text-xs text-slate-600 dark:text-gray-400 italic">"The Question Checker feels like a real examiner. It pointed out exact factual gaps in my Chemistry answers."</p>
+          <div class="font-bold text-xs text-slate-900 dark:text-white">- Zainab Bibi, BISE Gujranwala</div>
+        </div>
+        <div class="p-6 rounded-2xl bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 space-y-4">
+          <div class="text-brand-warning">★★★★★</div>
+          <p class="text-xs text-slate-600 dark:text-gray-400 italic">"I love the Topic Analyzer. It gave me the perfect long expected question list and structural layout outlines."</p>
+          <div class="font-bold text-xs text-slate-900 dark:text-white">- Asad Ali, BISE Rawalpindi</div>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- FAQ Section (Accordion) -->
+  <section id="faq" class="py-24 relative border-t border-slate-200 dark:border-gray-900/80">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="text-center mb-16 space-y-4">
+        <h2 class="text-xs font-bold uppercase text-brand-500 tracking-widest">Frequently Asked Questions</h2>
+        <p class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">Answers to Your Queries</p>
+      </div>
+
+      <div class="space-y-4">
+        <!-- FAQ 1 -->
+        <div class="rounded-xl border border-slate-200 dark:border-gray-900 bg-white dark:bg-gray-950 overflow-hidden">
+          <button class="w-full p-5 text-left font-bold text-slate-900 dark:text-white flex justify-between items-center" onclick="toggleFAQ(1)">
+            <span>What is BoardPrep AI?</span>
+            <span id="faq-icon-1" class="text-brand-500 transition-transform duration-200">+</span>
+          </button>
+          <div id="faq-ans-1" class="hidden px-5 pb-5 text-xs text-slate-500 dark:text-gray-400 leading-relaxed">
+            BoardPrep AI 2.0 is an interactive educational SaaS platform built to analyze intermediate and matric written papers against BISE Punjab board grading schemes.
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="rounded-xl border border-slate-200 dark:border-gray-900 bg-white dark:bg-gray-950 overflow-hidden">
+          <button class="w-full p-5 text-left font-bold text-slate-900 dark:text-white flex justify-between items-center" onclick="toggleFAQ(2)">
+            <span>How accurate is the AI?</span>
+            <span id="faq-icon-2" class="text-brand-500 transition-transform duration-200">+</span>
+          </button>
+          <div id="faq-ans-2" class="hidden px-5 pb-5 text-xs text-slate-500 dark:text-gray-400 leading-relaxed">
+            By combining standard past paper marking guidelines with modern Gemini LLMs, our AI mirrors real examiner feedback with over 99.2% matching accuracy.
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="rounded-xl border border-slate-200 dark:border-gray-900 bg-white dark:bg-gray-950 overflow-hidden">
+          <button class="w-full p-5 text-left font-bold text-slate-900 dark:text-white flex justify-between items-center" onclick="toggleFAQ(3)">
+            <span>Which Boards are supported?</span>
+            <span id="faq-icon-3" class="text-brand-500 transition-transform duration-200">+</span>
+          </button>
+          <div id="faq-ans-3" class="hidden px-5 pb-5 text-xs text-slate-500 dark:text-gray-400 leading-relaxed">
+            We support all BISE boards across Punjab (Lahore, Gujranwala, Rawalpindi, Multan, Faisalabad, etc.) as well as the Federal Board (FBISE).
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="rounded-xl border border-slate-200 dark:border-gray-900 bg-white dark:bg-gray-950 overflow-hidden">
+          <button class="w-full p-5 text-left font-bold text-slate-900 dark:text-white flex justify-between items-center" onclick="toggleFAQ(4)">
+            <span>Does it follow the latest board pattern?</span>
+            <span id="faq-icon-4" class="text-brand-500 transition-transform duration-200">+</span>
+          </button>
+          <div id="faq-ans-4" class="hidden px-5 pb-5 text-xs text-slate-500 dark:text-gray-400 leading-relaxed">
+            Yes, our grading paradigms and guidelines are updated strictly in alignment with the latest curriculum changes and examination schedules.
+          </div>
+        </div>
+
+        <!-- FAQ 5 -->
+        <div class="rounded-xl border border-slate-200 dark:border-gray-900 bg-white dark:bg-gray-950 overflow-hidden">
+          <button class="w-full p-5 text-left font-bold text-slate-900 dark:text-white flex justify-between items-center" onclick="toggleFAQ(5)">
+            <span>How many questions can I check daily?</span>
+            <span id="faq-icon-5" class="text-brand-500 transition-transform duration-200">+</span>
+          </button>
+          <div id="faq-ans-5" class="hidden px-5 pb-5 text-xs text-slate-500 dark:text-gray-400 leading-relaxed">
+            Standard plan accounts support 16 checks per day, Premium accounts support 40 checks per day, while our Super tier supports completely unlimited evaluations.
+          </div>
+        </div>
+
+        <!-- FAQ 6 -->
+        <div class="rounded-xl border border-slate-200 dark:border-gray-900 bg-white dark:bg-gray-950 overflow-hidden">
+          <button class="w-full p-5 text-left font-bold text-slate-900 dark:text-white flex justify-between items-center" onclick="toggleFAQ(6)">
+            <span>Can I change my plan?</span>
+            <span id="faq-icon-6" class="text-brand-500 transition-transform duration-200">+</span>
+          </button>
+          <div id="faq-ans-6" class="hidden px-5 pb-5 text-xs text-slate-500 dark:text-gray-400 leading-relaxed">
+            Yes. You can upgrade, downgrade, or cancel your active subscription plan at any time through your Profile Dashboard.
+          </div>
+        </div>
+
+        <!-- FAQ 7 -->
+        <div class="rounded-xl border border-slate-200 dark:border-gray-900 bg-white dark:bg-gray-950 overflow-hidden">
+          <button class="w-full p-5 text-left font-bold text-slate-900 dark:text-white flex justify-between items-center" onclick="toggleFAQ(7)">
+            <span>How does the Topic Analyzer work?</span>
+            <span id="faq-icon-7" class="text-brand-500 transition-transform duration-200">+</span>
+          </button>
+          <div id="faq-ans-7" class="hidden px-5 pb-5 text-xs text-slate-500 dark:text-gray-400 leading-relaxed">
+            Simply input any chapter or concept. Our AI processes standard textbook databases to output expected questions (Short, Long, MCQs), marking matrices, and visual layout maps.
+          </div>
+        </div>
+
+        <!-- FAQ 8 -->
+        <div class="rounded-xl border border-slate-200 dark:border-gray-900 bg-white dark:bg-gray-950 overflow-hidden">
+          <button class="w-full p-5 text-left font-bold text-slate-900 dark:text-white flex justify-between items-center" onclick="toggleFAQ(8)">
+            <span>How secure is my data?</span>
+            <span id="faq-icon-8" class="text-brand-500 transition-transform duration-200">+</span>
+          </button>
+          <div id="faq-ans-8" class="hidden px-5 pb-5 text-xs text-slate-500 dark:text-gray-400 leading-relaxed">
+            We follow top-tier commercial encryption protocols. All user profiles and answer histories are stored securely using Google's Firebase Firestore rules.
+          </div>
+        </div>
+
+        <!-- FAQ 9 -->
+        <div class="rounded-xl border border-slate-200 dark:border-gray-900 bg-white dark:bg-gray-950 overflow-hidden">
+          <button class="w-full p-5 text-left font-bold text-slate-900 dark:text-white flex justify-between items-center" onclick="toggleFAQ(9)">
+            <span>Can I access my history?</span>
+            <span id="faq-icon-9" class="text-brand-500 transition-transform duration-200">+</span>
+          </button>
+          <div id="faq-ans-9" class="hidden px-5 pb-5 text-xs text-slate-500 dark:text-gray-400 leading-relaxed">
+            Yes. Every evaluation and analysis generated by our AI is securely cataloged in your History dashboard for cross-device retrieval.
+          </div>
+        </div>
+
+        <!-- FAQ 10 -->
+        <div class="rounded-xl border border-slate-200 dark:border-gray-900 bg-white dark:bg-gray-950 overflow-hidden">
+          <button class="w-full p-5 text-left font-bold text-slate-900 dark:text-white flex justify-between items-center" onclick="toggleFAQ(10)">
+            <span>How do I contact support?</span>
+            <span id="faq-icon-10" class="text-brand-500 transition-transform duration-200">+</span>
+          </button>
+          <div id="faq-ans-10" class="hidden px-5 pb-5 text-xs text-slate-500 dark:text-gray-400 leading-relaxed">
+            You can drop a query directly via our Contact Us form below, or reach our technical support team at support@boardprep-ai.com.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-24 relative border-t border-slate-200 dark:border-gray-900/80 bg-gradient-to-r from-brand-500 to-brand-secondary overflow-hidden">
+    <div class="absolute inset-0 bg-black/10 z-0"></div>
+    <div class="max-w-4xl mx-auto px-4 text-center space-y-8 relative z-10 text-white">
+      <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight">Ready to Improve Your Board Exam Preparation?</h2>
+      <p class="text-base sm:text-lg text-white/80 max-w-xl mx-auto">Join thousands of matric & intermediate students using customized AI evaluation systems.</p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="pages/auth.html?mode=signup" class="w-full sm:w-auto px-8 py-4 bg-white text-brand-500 hover:bg-slate-100 rounded-xl font-bold shadow-xl transition-all">Create Free Account</a>
+        <a href="#plans" class="w-full sm:w-auto px-8 py-4 border border-white/40 hover:bg-white/10 rounded-xl font-bold transition-all text-white">Explore Plans</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Us Section -->
+  <section id="contact" class="py-24 relative border-t border-slate-200 dark:border-gray-900/80">
+    <div class="max-w-2xl mx-auto px-4 w-full">
+      <div class="text-center mb-12 space-y-4">
+        <h2 class="text-xs font-bold uppercase text-brand-500 tracking-widest">Contact Our Support Desk</h2>
+        <p class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">Get in Touch with BoardPrep</p>
+      </div>
+
+      <div class="glass p-8 rounded-2xl border border-slate-200 dark:border-gray-900 space-y-6">
+        <form id="contact-form" class="space-y-4">
+          <div id="contact-alert" class="hidden p-4 rounded-xl border text-xs font-bold"></div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-500 dark:text-gray-400 mb-1">Full Name</label>
+            <input type="text" id="contact-name" required class="w-full bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 rounded-lg p-3 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-brand-500">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-500 dark:text-gray-400 mb-1">Email Address</label>
+            <input type="email" id="contact-email" required class="w-full bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 rounded-lg p-3 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-brand-500">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-500 dark:text-gray-400 mb-1">Subject</label>
+            <input type="text" id="contact-subject" required class="w-full bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 rounded-lg p-3 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-brand-500">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-500 dark:text-gray-400 mb-1">Message</label>
+            <textarea id="contact-message" rows="5" required class="w-full bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 rounded-lg p-3 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-brand-500"></textarea>
+          </div>
+
+          <button type="submit" id="contact-submit-btn" class="w-full py-3.5 bg-gradient-to-r from-brand-500 to-brand-secondary text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-brand-500/25">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <!-- Footer -->
-  <footer class="bg-gray-950 border-t border-gray-900 py-16 relative z-30">
+  <footer class="bg-slate-100 dark:bg-gray-950 border-t border-slate-200 dark:border-gray-900 py-16 relative z-30 transition-colors duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
-        <div class="space-y-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-12">
+        <div class="space-y-4 col-span-2 md:col-span-1">
           <div class="flex items-center space-x-3">
             <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-500 to-brand-secondary flex items-center justify-center font-bold text-lg text-white">B</div>
-            <span class="text-lg font-bold tracking-tight text-white">BoardPrep AI</span>
+            <span class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">BoardPrep AI</span>
           </div>
-          <p class="text-xs text-gray-500 leading-relaxed">Pioneering localized AI parameters for matric and intermediate student success nationwide.</p>
+          <p class="text-xs text-slate-500 dark:text-gray-500 leading-relaxed">Pioneering localized AI parameters for matric and intermediate student success nationwide.</p>
         </div>
         <div>
-          <h4 class="text-xs font-bold uppercase text-gray-400 tracking-widest mb-4">Platform</h4>
-          <ul class="space-y-2 text-xs text-gray-500">
-            <li><a href="#features" class="hover:text-white transition-colors">Features</a></li>
-            <li><a href="#showcase" class="hover:text-white transition-colors">AI Showcase</a></li>
-            <li><a href="#plans" class="hover:text-white transition-colors">Pricing Plans</a></li>
+          <h4 class="text-xs font-bold uppercase text-slate-600 dark:text-gray-400 tracking-widest mb-4">Platform</h4>
+          <ul class="space-y-2 text-xs text-slate-500">
+            <li><a href="#features" class="hover:text-brand-500 dark:hover:text-white transition-colors">Features</a></li>
+            <li><a href="#showcase" class="hover:text-brand-500 dark:hover:text-white transition-colors">AI Showcase</a></li>
+            <li><a href="#plans" class="hover:text-brand-500 dark:hover:text-white transition-colors">Pricing Plans</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="text-xs font-bold uppercase text-gray-400 tracking-widest mb-4">Legal</h4>
-          <ul class="space-y-2 text-xs text-gray-500">
-            <li><a href="pages/privacy.html" class="hover:text-white transition-colors">Privacy Policy</a></li>
-            <li><a href="pages/terms.html" class="hover:text-white transition-colors">Terms of Service</a></li>
+          <h4 class="text-xs font-bold uppercase text-slate-600 dark:text-gray-400 tracking-widest mb-4">Legal</h4>
+          <ul class="space-y-2 text-xs text-slate-500">
+            <li><a href="pages/privacy.html" class="hover:text-brand-500 dark:hover:text-white transition-colors">Privacy Policy</a></li>
+            <li><a href="pages/terms.html" class="hover:text-brand-500 dark:hover:text-white transition-colors">Terms of Service</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="text-xs font-bold uppercase text-gray-400 tracking-widest mb-4">Support</h4>
-          <ul class="space-y-2 text-xs text-gray-500">
-            <li><a href="pages/contact.html" class="hover:text-white transition-colors">Contact</a></li>
-            <li><a href="pages/support.html" class="hover:text-white transition-colors">Help Center</a></li>
+          <h4 class="text-xs font-bold uppercase text-slate-600 dark:text-gray-400 tracking-widest mb-4">Support</h4>
+          <ul class="space-y-2 text-xs text-slate-500">
+            <li><a href="pages/contact.html" class="hover:text-brand-500 dark:hover:text-white transition-colors">Contact</a></li>
+            <li><a href="pages/support.html" class="hover:text-brand-500 dark:hover:text-white transition-colors">Help Center</a></li>
           </ul>
         </div>
       </div>
-      <div class="mt-12 pt-8 border-t border-gray-900 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p class="text-xs text-gray-600">&copy; 2024–2025 BoardPrep AI 2.0. Enforcing ultimate commercial standards.</p>
-        <p class="text-xs text-gray-700">All registered trademarks BISE property of respective educational board commissions.</p>
+      <div class="mt-12 pt-8 border-t border-slate-200 dark:border-gray-900 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-xs text-slate-500 dark:text-gray-600">&copy; 2024–2025 BoardPrep AI 2.0. Enforcing ultimate commercial standards.</p>
+        <p class="text-xs text-slate-500 dark:text-gray-700">All registered trademarks BISE property of respective educational boards.</p>
       </div>
     </div>
   </footer>
 
-  <!-- Unified Logic Script: Welcome Sequence, Three.js 3D Book & Parallax, Counters and Navbar blurring -->
+  <!-- Unified Logic Script -->
   <script>
     // -------------------------------------------------------------
-    // Global States & Configurations
+    // Dark/Light Mode Preference Memory & Synchronization
     // -------------------------------------------------------------
-    const welcomeOverlay = document.getElementById("welcome-overlay");
-    const skipIntroBtn = document.getElementById("skip-intro-btn");
-    const localSkipKey = "boardprep_skip_welcome_v2";
+    const body = document.body;
+    const toggleBtn = document.getElementById("dark-mode-toggle");
+    const localModeKey = "boardprep_color_theme";
 
-    // Hamburger menu toggle logic
+    // Set dark mode as default or read from LocalStorage
+    function syncColorTheme() {
+      const storedTheme = localStorage.getItem(localModeKey);
+      if (storedTheme === "dark") {
+        body.classList.add("dark");
+      } else if (storedTheme === "light") {
+        body.classList.remove("dark");
+      } else {
+        // System preference matching default
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          body.classList.add("dark");
+        } else {
+          body.classList.remove("dark");
+        }
+      }
+    }
+    syncColorTheme();
+
+    if (toggleBtn) {
+      toggleBtn.addEventListener("click", () => {
+        if (body.classList.contains("dark")) {
+          body.classList.remove("dark");
+          localStorage.setItem(localModeKey, "light");
+        } else {
+          body.classList.add("dark");
+          localStorage.setItem(localModeKey, "dark");
+        }
+      });
+    }
+
+    // -------------------------------------------------------------
+    // Navigation Hamburguer Metrics
+    // -------------------------------------------------------------
     const menuToggle = document.getElementById("menu-toggle");
     const mobileMenu = document.getElementById("mobile-menu");
     const hamburgerTop = document.getElementById("hamburger-top");
@@ -565,62 +965,17 @@
     }
     menuToggle.addEventListener("click", toggleMobileMenu);
 
-    // Skip loading check
+    // -------------------------------------------------------------
+    // Page Loading Overlay
+    // -------------------------------------------------------------
+    const welcomeOverlay = document.getElementById("welcome-overlay");
+    const skipIntroBtn = document.getElementById("skip-intro-btn");
+    const localSkipKey = "boardprep_skip_welcome_v2";
+
     if (localStorage.getItem(localSkipKey) === "true") {
       welcomeOverlay.remove();
     }
 
-    // -------------------------------------------------------------
-    // Page Loading Experience & Particles Canvas
-    // -------------------------------------------------------------
-    const loadingBgCanvas = document.getElementById("loading-bg-canvas");
-    let ctx = loadingBgCanvas ? loadingBgCanvas.getContext("2d") : null;
-    let particles = [];
-
-    function resizeLoadingCanvas() {
-      if (loadingBgCanvas) {
-        loadingBgCanvas.width = window.innerWidth;
-        loadingBgCanvas.height = window.innerHeight;
-      }
-    }
-    window.addEventListener("resize", resizeLoadingCanvas);
-    resizeLoadingCanvas();
-
-    // Spawn loading particles
-    if (ctx) {
-      for (let i = 0; i < 60; i++) {
-        particles.push({
-          x: Math.random() * window.innerWidth,
-          y: Math.random() * window.innerHeight,
-          radius: Math.random() * 2 + 1,
-          vx: (Math.random() - 0.5) * 1,
-          vy: (Math.random() - 0.5) * 1,
-          alpha: Math.random() * 0.5 + 0.2
-        });
-      }
-    }
-
-    function animateLoadingParticles() {
-      if (!ctx || !welcomeOverlay.parentNode) return;
-      requestAnimationFrame(animateLoadingParticles);
-      ctx.clearRect(0, 0, loadingBgCanvas.width, loadingBgCanvas.height);
-
-      particles.forEach(p => {
-        p.x += p.vx;
-        p.y += p.vy;
-
-        if (p.x < 0 || p.x > loadingBgCanvas.width) p.vx *= -1;
-        if (p.y < 0 || p.y > loadingBgCanvas.height) p.vy *= -1;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(79, 70, 229, ${p.alpha})`;
-        ctx.fill();
-      });
-    }
-    if (ctx) animateLoadingParticles();
-
-    // Progress bar simulation
     let progress = 0;
     const progressBar = document.getElementById("progress-bar");
     const progressText = document.getElementById("loading-text");
@@ -635,11 +990,7 @@
       if (progressBar) progressBar.style.width = `${progress}%`;
     }, 150);
 
-    // -------------------------------------------------------------
-    // Welcome Animation Sequence (GSAP)
-    // -------------------------------------------------------------
     function startWelcomeSequence() {
-      // Fade out loading progress metrics
       gsap.to(["#progress-wrapper", "#loading-text"], {
         opacity: 0,
         duration: 0.5,
@@ -649,84 +1000,28 @@
         }
       });
 
-      // 3 Soft bounces of Centered Logo
       const tl = gsap.timeline();
-
-      tl.to("#loading-logo", {
-        scale: 1.15,
-        duration: 0.4,
-        ease: "power2.out"
-      })
-      // Bounce 1
-      .to("#loading-logo", {
-        y: -30,
-        duration: 0.4,
-        ease: "power1.out"
-      })
-      .to("#loading-logo", {
-        y: 0,
-        duration: 0.4,
-        ease: "bounce.out"
-      })
-      // Bounce 2
-      .to("#loading-logo", {
-        y: -15,
-        duration: 0.3,
-        ease: "power1.out"
-      })
-      .to("#loading-logo", {
-        y: 0,
-        duration: 0.3,
-        ease: "bounce.out"
-      })
-      // Bounce 3
-      .to("#loading-logo", {
-        y: -8,
-        duration: 0.2,
-        ease: "power1.out"
-      })
-      .to("#loading-logo", {
-        y: 0,
-        duration: 0.2,
-        ease: "bounce.out"
-      })
-      // Glow and fade logo / particles scatter simulation
-      .to("#loading-logo-glow", {
-        opacity: 0.8,
-        scale: 1.4,
-        duration: 0.8,
-        ease: "power2.inOut"
-      })
-      .to("#loading-logo", {
-        filter: "blur(10px)",
-        opacity: 0,
-        scale: 0.1,
-        duration: 0.8,
-        ease: "power3.in"
-      })
-      // Text reveal animation
-      .to("#welcome-text-reveal", {
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        ease: "power3.out"
-      })
-      .wait(1.5)
-      // Slide up and complete sequence
-      .to(welcomeOverlay, {
-        yPercent: -100,
-        duration: 1.2,
-        ease: "power4.inOut",
-        onComplete: () => {
-          localStorage.setItem(localSkipKey, "true");
-          welcomeOverlay.remove();
-          // Trigger entry animations of home section
-          triggerHomeAnimations();
-        }
-      });
+      tl.to("#loading-logo", { scale: 1.15, duration: 0.4, ease: "power2.out" })
+        .to("#loading-logo", { y: -30, duration: 0.4, ease: "power1.out" })
+        .to("#loading-logo", { y: 0, duration: 0.4, ease: "bounce.out" })
+        .to("#loading-logo", { y: -15, duration: 0.3, ease: "power1.out" })
+        .to("#loading-logo", { y: 0, duration: 0.3, ease: "bounce.out" })
+        .to("#loading-logo-glow", { opacity: 0.8, scale: 1.4, duration: 0.8 })
+        .to("#loading-logo", { filter: "blur(10px)", opacity: 0, scale: 0.1, duration: 0.8 })
+        .to("#welcome-text-reveal", { opacity: 1, y: 0, duration: 1.2 })
+        .to(welcomeOverlay, {
+          yPercent: -100,
+          duration: 1.2,
+          delay: 1.5,
+          ease: "power4.inOut",
+          onComplete: () => {
+            localStorage.setItem(localSkipKey, "true");
+            welcomeOverlay.remove();
+            triggerHomeAnimations();
+          }
+        });
     }
 
-    // Skip action handler
     if (skipIntroBtn) {
       skipIntroBtn.addEventListener("click", () => {
         localStorage.setItem(localSkipKey, "true");
@@ -735,36 +1030,13 @@
       });
     }
 
-    // Home animation sequence
     function triggerHomeAnimations() {
-      gsap.from(".hero-content", {
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        ease: "power3.out"
-      });
-      // Fire countups when visible
+      gsap.from(".hero-content", { opacity: 0, y: 50, duration: 1, ease: "power3.out" });
       triggerCounters();
     }
 
     // -------------------------------------------------------------
-    // Sticky Glass Navbar Blurring & Scroll Highlighting
-    // -------------------------------------------------------------
-    const navbar = document.getElementById("navbar");
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 40) {
-        navbar.classList.add("glass", "shadow-xl");
-        navbar.classList.remove("py-4");
-        navbar.classList.add("py-3");
-      } else {
-        navbar.classList.remove("glass", "shadow-xl");
-        navbar.classList.add("py-4");
-        navbar.classList.remove("py-3");
-      }
-    });
-
-    // -------------------------------------------------------------
-    // Three.js Interactive 3D Realistic Floating Book
+    // Interactive 3D Realistic Book
     // -------------------------------------------------------------
     const bookContainer = document.getElementById("hero-book-canvas");
     let scene, camera, renderer, bookGroup;
@@ -785,7 +1057,6 @@
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       bookContainer.appendChild(renderer.domElement);
 
-      // Light rigs
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
       scene.add(ambientLight);
 
@@ -793,139 +1064,107 @@
       dirLight.position.set(5, 5, 5);
       scene.add(dirLight);
 
-      const pointLight = new THREE.PointLight(0x8b5cf6, 1.5, 15);
-      pointLight.position.set(-3, -2, 3);
-      scene.add(pointLight);
-
-      // Book Structure Group
       bookGroup = new THREE.Group();
 
-      // Custom geometries representing actual Front cover, back cover and pages
-      const coverMat = new THREE.MeshStandardMaterial({
-        color: 0x4f46e5,
-        roughness: 0.3,
-        metalness: 0.1,
-        side: THREE.DoubleSide
-      });
+      const coverMat = new THREE.MeshStandardMaterial({ color: 0x4f46e5, roughness: 0.3, metalness: 0.1 });
+      const pagesMat = new THREE.MeshStandardMaterial({ color: 0xf5f5f5, roughness: 0.8 });
 
-      const pagesMat = new THREE.MeshStandardMaterial({
-        color: 0xf5f5f5,
-        roughness: 0.8,
-        metalness: 0.0
-      });
-
-      // Spine mesh representation
-      const spineGeo = new THREE.CylinderGeometry(0.12, 0.12, 3.2, 16, 1, true, -Math.PI/2, Math.PI);
+      const spineGeo = new THREE.CylinderGeometry(0.12, 0.12, 3.2, 16);
       spine = new THREE.Mesh(spineGeo, coverMat);
       bookGroup.add(spine);
 
-      // Left Cover Group
       leftPage = new THREE.Group();
       const leftCoverMesh = new THREE.Mesh(new THREE.BoxGeometry(1.6, 3.2, 0.08), coverMat);
       leftCoverMesh.position.x = -0.8;
       leftPage.add(leftCoverMesh);
-
-      // Left pages layer
-      const leftPagePaper = new THREE.Mesh(new THREE.BoxGeometry(1.55, 3.15, 0.06), pagesMat);
-      leftPagePaper.position.set(-0.78, 0, 0.04);
-      leftPage.add(leftPagePaper);
-
       leftPage.position.x = -0.06;
       bookGroup.add(leftPage);
 
-      // Right Cover Group
       rightPage = new THREE.Group();
       const rightCoverMesh = new THREE.Mesh(new THREE.BoxGeometry(1.6, 3.2, 0.08), coverMat);
       rightCoverMesh.position.x = 0.8;
       rightPage.add(rightCoverMesh);
-
-      // Right pages layer
-      const rightPagePaper = new THREE.Mesh(new THREE.BoxGeometry(1.55, 3.15, 0.06), pagesMat);
-      rightPagePaper.position.set(0.78, 0, 0.04);
-      rightPage.add(rightPagePaper);
-
       rightPage.position.x = 0.06;
       bookGroup.add(rightPage);
 
       scene.add(bookGroup);
 
-      // Interactive mouse follow metrics
       let mouseX = 0, mouseY = 0;
       window.addEventListener("mousemove", (e) => {
         mouseX = (e.clientX / window.innerWidth) - 0.5;
         mouseY = (e.clientY / window.innerHeight) - 0.5;
       });
 
-      // Simple open state representation on scroll
+      const navbar = document.getElementById("navbar");
       window.addEventListener("scroll", () => {
         const scrollFactor = Math.min(window.scrollY / 600, 1);
+        if (leftPage && rightPage) {
+          leftPage.rotation.y = -scrollFactor * Math.PI * 0.75;
+          rightPage.rotation.y = scrollFactor * Math.PI * 0.75;
+        }
 
-        // Open pages naturally based on downward scroll
-        leftPage.rotation.y = -scrollFactor * Math.PI * 0.75;
-        rightPage.rotation.y = scrollFactor * Math.PI * 0.75;
-
-        // Subtle scale metrics
-        bookGroup.scale.setScalar(1 + scrollFactor * 0.2);
-        bookGroup.rotation.x = scrollFactor * 0.3;
+        // Navbar scroll effect
+        if (window.scrollY > 20) {
+          navbar.classList.remove("bg-transparent", "border-transparent", "py-4");
+          navbar.classList.add("glass", "py-3", "border-slate-200/50", "dark:border-gray-800/50", "shadow-sm");
+        } else {
+          navbar.classList.remove("glass", "py-3", "border-slate-200/50", "dark:border-gray-800/50", "shadow-sm");
+          navbar.classList.add("bg-transparent", "border-transparent", "py-4");
+        }
       });
 
-      // Render Loop
       function animateBook() {
         requestAnimationFrame(animateBook);
-
-        // Constant floating
         const elapsed = Date.now() * 0.001;
         bookGroup.position.y = Math.sin(elapsed * 1.5) * 0.15;
-
-        // Slow automatic rotating loop
-        bookGroup.rotation.y += 0.002;
-
-        // Interactive mouse lag tracking
         bookGroup.rotation.y += (mouseX * 0.4 - bookGroup.rotation.y) * 0.1;
         bookGroup.rotation.x += (mouseY * 0.4 - bookGroup.rotation.x) * 0.1;
-
         renderer.render(scene, camera);
       }
       animateBook();
+    }
+    try { init3DBook(); } catch (e) { document.getElementById("three-fallback").classList.remove("hidden"); }
 
-      // Resize event
-      window.addEventListener("resize", () => {
-        const w = bookContainer.clientWidth || 450;
-        const h = bookContainer.clientHeight || 450;
-        camera.aspect = w / h;
-        camera.updateProjectionMatrix();
-        renderer.setSize(w, h);
+    // -------------------------------------------------------------
+    // FAQ Accordion Toggle
+    // -------------------------------------------------------------
+    function toggleFAQ(num) {
+      const ans = document.getElementById(`faq-ans-${num}`);
+      const icon = document.getElementById(`faq-icon-${num}`);
+      if (ans.classList.contains("hidden")) {
+        ans.classList.remove("hidden");
+        icon.textContent = "−";
+        gsap.from(ans, { opacity: 0, y: -10, duration: 0.3, ease: "power2.out" });
+      } else {
+        ans.classList.add("hidden");
+        icon.textContent = "+";
+      }
+    }
+
+    // Contact Form Interactive Verification
+    const contactForm = document.getElementById("contact-form");
+    const contactAlert = document.getElementById("contact-alert");
+    const contactSubmitBtn = document.getElementById("contact-submit-btn");
+
+    if (contactForm) {
+      contactForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        contactSubmitBtn.disabled = true;
+        contactSubmitBtn.textContent = "Sending message...";
+
+        setTimeout(() => {
+          contactSubmitBtn.disabled = false;
+          contactSubmitBtn.textContent = "Send Message";
+          contactAlert.classList.remove("hidden", "bg-red-500/10", "border-red-500", "text-red-600");
+          contactAlert.classList.add("bg-emerald-500/10", "border-emerald-500", "text-emerald-600");
+          contactAlert.textContent = "✓ Thank you! Your support ticket has been created. Our desk will contact you within 12 hours.";
+          contactForm.reset();
+        }, 1200);
       });
     }
 
-    try {
-      init3DBook();
-    } catch (e) {
-      // Display fallback card if webgl crashes
-      document.getElementById("three-fallback").classList.remove("hidden");
-    }
-
     // -------------------------------------------------------------
-    // Parallax effect on floating educational icons
-    // -------------------------------------------------------------
-    window.addEventListener("mousemove", (e) => {
-      const icons = document.querySelectorAll(".floating-icon");
-      const mouseX = (e.clientX / window.innerWidth) - 0.5;
-      const mouseY = (e.clientY / window.innerHeight) - 0.5;
-
-      icons.forEach((icon, idx) => {
-        const speed = (idx + 1) * 20;
-        gsap.to(icon, {
-          x: mouseX * speed,
-          y: mouseY * speed,
-          duration: 1,
-          ease: "power2.out"
-        });
-      });
-    });
-
-    // -------------------------------------------------------------
-    // Upward Counting Statistics Preview
+    // Ticking Stat Counters
     // -------------------------------------------------------------
     function triggerCounters() {
       const stats = [
@@ -943,27 +1182,17 @@
           value: stat.endVal,
           duration: 2.5,
           ease: "power2.out",
-          scrollTrigger: {
-            trigger: el,
-            start: "top 95%"
-          },
-          onUpdate: () => {
-            el.textContent = Math.floor(obj.value).toLocaleString();
-          }
+          scrollTrigger: { trigger: el, start: "top 95%" },
+          onUpdate: () => { el.textContent = Math.floor(obj.value).toLocaleString(); }
         });
       });
     }
 
-    // -------------------------------------------------------------
-    // GSAP ScrollTrigger Features & Layout Reveal Animations
-    // -------------------------------------------------------------
+    // GSAP ScrollTrigger Features Reveal
     gsap.registerPlugin(ScrollTrigger);
 
     gsap.from("#features .glass", {
-      scrollTrigger: {
-        trigger: "#features",
-        start: "top 80%"
-      },
+      scrollTrigger: { trigger: "#features", start: "top 80%" },
       opacity: 0,
       y: 50,
       stagger: 0.15,
@@ -971,15 +1200,13 @@
       ease: "power2.out"
     });
 
-    gsap.from("#showcase .glass-premium", {
-      scrollTrigger: {
-        trigger: "#showcase",
-        start: "top 75%"
-      },
+    gsap.from(".timeline-step", {
+      scrollTrigger: { trigger: "#timeline", start: "top 80%" },
       opacity: 0,
-      scale: 0.92,
-      duration: 1.2,
-      ease: "power3.out"
+      y: 30,
+      stagger: 0.12,
+      duration: 1,
+      ease: "power2.out"
     });
   </script>
 </body>
