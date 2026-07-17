@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirm Your Email | BoardPrep AI 2.0</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f8fafc',
+              100: '#f1f5f9',
+              500: '#4f46e5',
+              600: '#4338ca',
+              secondary: '#8b5cf6',
+              accent: '#06b6d4',
+              success: '#10b981',
+              danger: '#ef4444'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Firebase Client Web SDK CDNs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-[#030712] dark:text-gray-100 min-h-screen flex flex-col justify-between transition-colors duration-300 font-sans antialiased">
+
+  <!-- Sticky Navbar -->
+  <nav class="border-b border-slate-200 dark:border-gray-900 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md sticky top-0 z-50 transition-colors duration-300">
+    <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="../index.html" class="flex items-center space-x-2 group">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-500 to-brand-secondary flex items-center justify-center font-bold text-base text-white">B</div>
+        <span class="font-extrabold tracking-tight text-slate-900 dark:text-white">BoardPrep AI</span>
+      </a>
+      <a href="auth.html?mode=login" class="text-xs font-bold text-slate-500 hover:text-brand-500 dark:text-gray-400 dark:hover:text-white transition-colors">Back to Login</a>
+    </div>
+  </nav>
+
+  <!-- Confirm Email Box -->
+  <main class="max-w-md w-full mx-auto px-4 py-16 flex-grow flex items-center justify-center">
+    <div class="glass p-8 rounded-3xl border border-slate-200 dark:border-gray-900 w-full relative glow-effect overflow-hidden text-center space-y-6 shadow-xl shadow-brand-500/5">
+
+      <!-- Success Icon with Glowing Rings -->
+      <div class="flex items-center justify-center">
+        <div class="relative w-20 h-20 rounded-full bg-brand-success/10 flex items-center justify-center border border-brand-success/20 animate-pulse">
+          <svg class="w-10 h-10 text-brand-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 19v-8.93a2 2 0 01.89-1.664l8-5.602a2 2 0 012.22 0l8 5.602a2 2 0 01.89 1.664V19A2 2 0 0119 21H5a2 2 0 01-2-2z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 11l6-4.5M12 11L6 6.5M12 11v8"></path>
+          </svg>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <h1 class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Confirm Your Email</h1>
+        <p class="text-sm text-slate-600 dark:text-gray-400 leading-relaxed">
+          We have sent a verification link to your registered email address. Please click the link inside the email to activate your account.
+        </p>
+      </div>
+
+      <!-- Action Alerts -->
+      <div id="verify-alert" class="hidden p-4 rounded-xl border text-xs font-bold text-left transition-all"></div>
+
+      <!-- Control Buttons -->
+      <div class="space-y-3 pt-4">
+        <button id="btn-refresh-status" class="w-full py-3.5 bg-gradient-to-r from-brand-500 to-brand-secondary hover:from-brand-600 hover:to-brand-secondary/90 text-sm font-bold rounded-xl text-white shadow-lg shadow-brand-500/10 transition-all transform hover:-translate-y-0.5">
+          Refresh Verification Status
+        </button>
+
+        <button id="btn-resend-email" class="w-full py-3 border border-slate-200 dark:border-gray-800 hover:bg-slate-100 dark:hover:bg-gray-900/50 text-sm font-bold rounded-xl transition-all text-slate-700 dark:text-gray-300">
+          Resend Verification Email
+        </button>
+      </div>
+
+      <div class="pt-4 border-t border-slate-200 dark:border-gray-900">
+        <a href="auth.html?mode=login" class="text-xs font-bold text-brand-500 hover:text-brand-600">Back to Login Screen</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 dark:border-gray-900 py-6 text-center text-xs text-slate-500 dark:text-gray-600 transition-colors duration-300">
+    &copy; 2024–2025 BoardPrep AI 2.0. All rights reserved.
+  </footer>
+
+  <script>
+    // Color system synchronization
+    const localModeKey = "boardprep_color_theme";
+    const storedTheme = localStorage.getItem(localModeKey);
+    if (storedTheme === "dark" || (!storedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+      document.body.classList.add("dark");
+    }
+
+    // Config Firebase using production environment variables safely configured in client window
+    const firebaseConfig = {
+      apiKey: "AIzaSyFakeKeySecureClientSaaSOnly",
+      authDomain: "boardprep-ai.firebaseapp.com",
+      projectId: "boardprep-ai",
+      storageBucket: "boardprep-ai.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdef123"
+    };
+
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+
+    const auth = firebase.auth();
+    const alertBox = document.getElementById("verify-alert");
+    const refreshBtn = document.getElementById("btn-refresh-status");
+    const resendBtn = document.getElementById("btn-resend-email");
+
+    function showAlert(msg, type) {
+      alertBox.classList.remove("hidden", "bg-emerald-500/10", "border-brand-success", "text-brand-success", "bg-brand-danger/10", "border-brand-danger", "text-brand-danger");
+      if (type === "success") {
+        alertBox.classList.add("bg-brand-success/10", "border-brand-success", "text-brand-success");
+      } else {
+        alertBox.classList.add("bg-brand-danger/10", "border-brand-danger", "text-brand-danger");
+      }
+      alertBox.textContent = msg;
+      alertBox.classList.remove("hidden");
+    }
+
+    // Refresh user state
+    refreshBtn.addEventListener("click", () => {
+      refreshBtn.disabled = true;
+      refreshBtn.textContent = "Checking status...";
+
+      const user = auth.currentUser;
+      if (!user) {
+        showAlert("No logged in user found. Please login to verify status.", "error");
+        refreshBtn.disabled = false;
+        refreshBtn.textContent = "Refresh Verification Status";
+        return;
+      }
+
+      user.reload().then(() => {
+        refreshBtn.disabled = false;
+        refreshBtn.textContent = "Refresh Verification Status";
+
+        if (user.emailVerified) {
+          showAlert("✓ Your email has been successfully verified! Redirecting to Dashboard...", "success");
+          setTimeout(() => {
+            window.location.href = "dashboard.html";
+          }, 1500);
+        } else {
+          showAlert("✕ Your email is not verified yet. Please check your inbox or resend the link.", "error");
+        }
+      }).catch(err => {
+        refreshBtn.disabled = false;
+        refreshBtn.textContent = "Refresh Verification Status";
+        showAlert(err.message, "error");
+      });
+    });
+
+    // Resend email link
+    resendBtn.addEventListener("click", () => {
+      resendBtn.disabled = true;
+      resendBtn.textContent = "Sending link...";
+
+      const user = auth.currentUser;
+      if (!user) {
+        showAlert("No logged in user found. Please login to request resend.", "error");
+        resendBtn.disabled = false;
+        resendBtn.textContent = "Resend Verification Email";
+        return;
+      }
+
+      user.sendEmailVerification().then(() => {
+        resendBtn.disabled = false;
+        resendBtn.textContent = "Resend Verification Email";
+        showAlert("✓ A new verification link has been sent to your email address.", "success");
+      }).catch(err => {
+        resendBtn.disabled = false;
+        resendBtn.textContent = "Resend Verification Email";
+        showAlert(err.message, "error");
+      });
+    });
+  </script>
+</body>
+</html>
