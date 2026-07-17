@@ -345,6 +345,10 @@
     // Monitor Firebase Auth State
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        if (!user.emailVerified) {
+          window.location.href = "verify-email.html";
+          return;
+        }
         document.getElementById("user-display-name").textContent = user.displayName || "Board Student";
         document.getElementById("user-email").textContent = user.email;
         document.getElementById("user-avatar").textContent = (user.displayName || "U")[0].toUpperCase();
