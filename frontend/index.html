@@ -227,7 +227,7 @@
         </div>
 
         <!-- Hero 3D Book Container (Right) -->
-        <div class="relative w-full h-[350px] sm:h-[450px] flex items-center justify-center z-20 overflow-visible">
+        <div class="relative xl:fixed xl:right-12 xl:top-1/2 xl:-translate-y-1/2 xl:w-[450px] xl:h-[450px] xl:z-40 xl:pointer-events-none w-full h-[350px] sm:h-[450px] flex items-center justify-center z-20 overflow-visible">
           <!-- Fallback illustration if WebGL fails -->
           <div id="three-fallback" class="hidden absolute inset-0 bg-gradient-to-tr from-brand-500/10 to-brand-secondary/10 border border-slate-200 dark:border-gray-800 rounded-3xl p-8 flex flex-col items-center justify-center text-center">
             <div class="text-6xl mb-4">📖</div>
@@ -235,7 +235,7 @@
             <p class="text-xs text-slate-500 dark:text-gray-400 max-w-xs">Your device doesn't support WebGL, but you can still access all BoardPrep features directly.</p>
           </div>
           <!-- Canvas for 3D Book -->
-          <div id="hero-book-canvas" class="w-full h-full cursor-grab active:cursor-grabbing"></div>
+          <div id="hero-book-canvas" class="w-full h-full cursor-grab active:cursor-grabbing xl:pointer-events-auto"></div>
         </div>
       </div>
     </div>
@@ -271,7 +271,7 @@
 
   <!-- Features Section -->
   <section id="features" class="py-24 relative border-t border-slate-200 dark:border-gray-900/80">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:pr-[420px]">
       <div class="text-center max-w-3xl mx-auto mb-20 space-y-4">
         <h2 class="text-xs font-bold uppercase text-brand-accent tracking-widest">Everything You Need to Excel in Board Exams</h2>
         <p class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white font-sans">Prepare Smarter with Customized AI Parameters</p>
@@ -383,7 +383,7 @@
 
   <!-- Timeline (How It Works) -->
   <section id="timeline" class="py-24 relative border-t border-slate-200 dark:border-gray-900/80">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:pr-[420px]">
       <div class="text-center max-w-3xl mx-auto mb-20 space-y-4">
         <h2 class="text-xs font-bold uppercase text-brand-500 tracking-widest">How It Works</h2>
         <p class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">Six Steps to Peak Board Performance</p>
@@ -494,7 +494,7 @@
 
   <!-- Pricing Plans Section -->
   <section id="plans" class="py-24 relative border-t border-slate-200 dark:border-gray-900/80">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:pr-[420px]">
       <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
         <h2 class="text-xs font-bold uppercase text-brand-500 tracking-widest">Premium Plans</h2>
         <p class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white font-sans">Simple, Affordable Pricing for Pakistani Students</p>
@@ -690,7 +690,7 @@
 
   <!-- FAQ Section (Accordion) -->
   <section id="faq" class="py-24 relative border-t border-slate-200 dark:border-gray-900/80">
-    <div class="max-w-4xl mx-auto px-4">
+    <div class="max-w-4xl mx-auto px-4 xl:max-w-5xl xl:pr-[420px]">
       <div class="text-center mb-16 space-y-4">
         <h2 class="text-xs font-bold uppercase text-brand-500 tracking-widest">Frequently Asked Questions</h2>
         <p class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">Answers to Your Queries</p>
@@ -827,7 +827,7 @@
 
   <!-- Contact Us Section -->
   <section id="contact" class="py-24 relative border-t border-slate-200 dark:border-gray-900/80">
-    <div class="max-w-2xl mx-auto px-4 w-full">
+    <div class="max-w-2xl mx-auto px-4 w-full xl:max-w-3xl xl:pr-[420px]">
       <div class="text-center mb-12 space-y-4">
         <h2 class="text-xs font-bold uppercase text-brand-500 tracking-widest">Contact Our Support Desk</h2>
         <p class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">Get in Touch with BoardPrep</p>
@@ -1036,11 +1036,13 @@
     }
 
     // -------------------------------------------------------------
-    // Interactive 3D Realistic Book
+    // Interactive 3D Persistent Object (Horizontal Book & Scrambling Rubik's Cube)
     // -------------------------------------------------------------
     const bookContainer = document.getElementById("hero-book-canvas");
-    let scene, camera, renderer, bookGroup;
-    let leftPage, rightPage, spine;
+    let scene, camera, renderer, masterGroup;
+    let bookGroup, leftPage, rightPage, spine;
+    let rubiksGroup, subCubes = [];
+    let innerPages = [];
 
     function init3DBook() {
       if (!bookContainer) return;
@@ -1057,53 +1059,170 @@
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       bookContainer.appendChild(renderer.domElement);
 
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
       scene.add(ambientLight);
 
-      const dirLight = new THREE.DirectionalLight(0x4f46e5, 1.2);
-      dirLight.position.set(5, 5, 5);
-      scene.add(dirLight);
+      const dirLight1 = new THREE.DirectionalLight(0x4f46e5, 1.2);
+      dirLight1.position.set(5, 5, 5);
+      scene.add(dirLight1);
 
+      const dirLight2 = new THREE.DirectionalLight(0x06b6d4, 0.8);
+      dirLight2.position.set(-5, 3, -2);
+      scene.add(dirLight2);
+
+      // Master Parent Group for Mouse Interactivity
+      masterGroup = new THREE.Group();
+      scene.add(masterGroup);
+
+      // ==========================================
+      // 1. Build Horizontal Book Group
+      // ==========================================
       bookGroup = new THREE.Group();
 
-      const coverMat = new THREE.MeshStandardMaterial({ color: 0x4f46e5, roughness: 0.3, metalness: 0.1 });
-      const pagesMat = new THREE.MeshStandardMaterial({ color: 0xf5f5f5, roughness: 0.8 });
+      // Orient the book horizontally by rotating the internal layout structure
+      bookGroup.rotation.z = Math.PI / 2; // Lies flat horizontally
+      bookGroup.rotation.y = -Math.PI / 10; // Tilted slightly for isometric aesthetic
+      bookGroup.rotation.x = Math.PI / 6;   // Forward tilt towards user camera
+      masterGroup.add(bookGroup);
 
+      const coverMat = new THREE.MeshStandardMaterial({ color: 0x4f46e5, roughness: 0.3, metalness: 0.1 });
+      const pagesMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.8 });
+
+      // Spine cylinder parallel to horizontal X-axis (now Y-axis under 90 deg rotated bookGroup)
       const spineGeo = new THREE.CylinderGeometry(0.12, 0.12, 3.2, 16);
       spine = new THREE.Mesh(spineGeo, coverMat);
       bookGroup.add(spine);
 
+      // Left Cover Group
       leftPage = new THREE.Group();
-      const leftCoverMesh = new THREE.Mesh(new THREE.BoxGeometry(1.6, 3.2, 0.08), coverMat);
+      const leftCoverMesh = new THREE.Mesh(new THREE.BoxGeometry(1.6, 3.1, 0.08), coverMat);
       leftCoverMesh.position.x = -0.8;
       leftPage.add(leftCoverMesh);
       leftPage.position.x = -0.06;
       bookGroup.add(leftPage);
 
+      // Right Cover Group
       rightPage = new THREE.Group();
-      const rightCoverMesh = new THREE.Mesh(new THREE.BoxGeometry(1.6, 3.2, 0.08), coverMat);
+      const rightCoverMesh = new THREE.Mesh(new THREE.BoxGeometry(1.6, 3.1, 0.08), coverMat);
       rightCoverMesh.position.x = 0.8;
       rightPage.add(rightCoverMesh);
       rightPage.position.x = 0.06;
       bookGroup.add(rightPage);
 
-      scene.add(bookGroup);
+      // Dynamic Inner Paper Sheets (Hinged in the center, turning sequentially on scroll)
+      const paperGeo = new THREE.BoxGeometry(1.5, 3.0, 0.01);
+      for (let i = 0; i < 3; i++) {
+        const pGroup = new THREE.Group();
+        const pMesh = new THREE.Mesh(paperGeo, pagesMat);
+        pMesh.position.x = 0.75; // Hinged on left edge of page
+        pGroup.add(pMesh);
+        pGroup.position.x = 0.01;
+        bookGroup.add(pGroup);
+        innerPages.push(pGroup);
+      }
 
+      // ==========================================
+      // 2. Build 3x3x3 Rubik's Cube Group
+      // ==========================================
+      rubiksGroup = new THREE.Group();
+      rubiksGroup.scale.set(0.001, 0.001, 0.001); // Initially hidden
+      rubiksGroup.visible = false;
+      masterGroup.add(rubiksGroup);
+
+      // Custom facelet color materials
+      const faceMats = [
+        new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.2 }), // Right (Red)
+        new THREE.MeshStandardMaterial({ color: 0xf97316, roughness: 0.2 }), // Left (Orange)
+        new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.1 }), // Top (White)
+        new THREE.MeshStandardMaterial({ color: 0xeab308, roughness: 0.2 }), // Bottom (Yellow)
+        new THREE.MeshStandardMaterial({ color: 0x22c55e, roughness: 0.2 }), // Front (Green)
+        new THREE.MeshStandardMaterial({ color: 0x3b82f6, roughness: 0.2 })  // Back (Blue)
+      ];
+
+      const subCubeGeo = new THREE.BoxGeometry(0.46, 0.46, 0.46);
+
+      // Populate 3x3x3 layout (27 sub-cubes)
+      for (let x = -1; x <= 1; x++) {
+        for (let y = -1; y <= 1; y++) {
+          for (let z = -1; z <= 1; z++) {
+            const mesh = new THREE.Mesh(subCubeGeo, faceMats);
+            mesh.position.set(x * 0.5, y * 0.5, z * 0.5);
+            // Cache starting parameters for animation
+            mesh.userData = {
+              origX: x,
+              origY: y,
+              origZ: z
+            };
+            rubiksGroup.add(mesh);
+            subCubes.push(mesh);
+          }
+        }
+      }
+
+      // ==========================================
+      // Mouse Interactivity
+      // ==========================================
       let mouseX = 0, mouseY = 0;
       window.addEventListener("mousemove", (e) => {
         mouseX = (e.clientX / window.innerWidth) - 0.5;
         mouseY = (e.clientY / window.innerHeight) - 0.5;
       });
 
+      // ==========================================
+      // Dynamic Scroll Listener
+      // ==========================================
       const navbar = document.getElementById("navbar");
+
       window.addEventListener("scroll", () => {
-        const scrollFactor = Math.min(window.scrollY / 600, 1);
-        if (leftPage && rightPage) {
-          leftPage.rotation.y = -scrollFactor * Math.PI * 0.75;
-          rightPage.rotation.y = scrollFactor * Math.PI * 0.75;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollFactor = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+
+        // Dynamically compute FAQ element boundary coordinates to trigger Rubik's Cube
+        const faqElement = document.getElementById("faq");
+        let isFaqReached = false;
+        if (faqElement) {
+          const rect = faqElement.getBoundingClientRect();
+          if (rect.top < window.innerHeight * 0.65) {
+            isFaqReached = true;
+          }
         }
 
-        // Navbar scroll effect
+        // 1. Dynamic Scroll-Controlled Book Open & Page Turning
+        if (!isFaqReached) {
+          // Normal Book Mode
+          bookGroup.visible = true;
+          bookGroup.scale.set(1, 1, 1);
+          rubiksGroup.visible = false;
+          rubiksGroup.scale.set(0.001, 0.001, 0.001);
+
+          // Covers open smoothly between 0 and 0.2 of scroll
+          const coverFactor = Math.min(scrollFactor / 0.2, 1);
+          leftPage.rotation.y = -coverFactor * Math.PI * 0.8;
+          rightPage.rotation.y = coverFactor * Math.PI * 0.8;
+
+          // Inner pages flip sequentially as scroll progresses from 0.2 to 0.7
+          // Page 1 flips between 0.2 and 0.35
+          const p1Factor = Math.max(0, Math.min((scrollFactor - 0.2) / 0.15, 1));
+          innerPages[0].rotation.y = -p1Factor * Math.PI;
+
+          // Page 2 flips between 0.35 and 0.5
+          const p2Factor = Math.max(0, Math.min((scrollFactor - 0.35) / 0.15, 1));
+          innerPages[1].rotation.y = -p2Factor * Math.PI;
+
+          // Page 3 flips between 0.5 and 0.65
+          const p3Factor = Math.max(0, Math.min((scrollFactor - 0.5) / 0.15, 1));
+          innerPages[2].rotation.y = -p3Factor * Math.PI;
+
+        } else {
+          // 2. FAQ Zone reached! Transition Book to Rubik's Cube
+          bookGroup.scale.set(0.001, 0.001, 0.001);
+          bookGroup.visible = false;
+
+          rubiksGroup.visible = true;
+          rubiksGroup.scale.set(1, 1, 1);
+        }
+
+        // Standard navbar glass transition effect
         if (window.scrollY > 20) {
           navbar.classList.remove("bg-transparent", "border-transparent", "py-4");
           navbar.classList.add("glass", "py-3", "border-slate-200/50", "dark:border-gray-800/50", "shadow-sm");
@@ -1113,12 +1232,55 @@
         }
       });
 
+      // ==========================================
+      // Continuous Scrambling & Animation Loop
+      // ==========================================
       function animateBook() {
         requestAnimationFrame(animateBook);
         const elapsed = Date.now() * 0.001;
-        bookGroup.position.y = Math.sin(elapsed * 1.5) * 0.15;
-        bookGroup.rotation.y += (mouseX * 0.4 - bookGroup.rotation.y) * 0.1;
-        bookGroup.rotation.x += (mouseY * 0.4 - bookGroup.rotation.x) * 0.1;
+
+        // General slow floating motion on master group
+        masterGroup.position.y = Math.sin(elapsed * 1.5) * 0.15;
+        masterGroup.rotation.y += (mouseX * 0.4 - masterGroup.rotation.y) * 0.1;
+        masterGroup.rotation.x += (mouseY * 0.4 - masterGroup.rotation.x) * 0.1;
+
+        // Rubik's Cube Custom Scrambling Logic (Orbit Coherent Layer Rotation to avoid clipping)
+        if (rubiksGroup.visible) {
+          subCubes.forEach(cube => {
+            const angleY = elapsed * 1.5;
+            const angleX = elapsed * 1.0;
+
+            let x = cube.userData.origX * 0.5;
+            let y = cube.userData.origY * 0.5;
+            let z = cube.userData.origZ * 0.5;
+
+            // Rotate top layer (Y > 0) around Y-axis coherently
+            if (cube.userData.origY > 0) {
+              const nx = x * Math.cos(angleY) - z * Math.sin(angleY);
+              const nz = x * Math.sin(angleY) + z * Math.cos(angleY);
+              cube.position.x = nx;
+              cube.position.z = nz;
+              cube.rotation.y = angleY;
+            }
+            // Rotate bottom layer (Y < 0) around Y-axis in reverse
+            else if (cube.userData.origY < 0) {
+              const nx = x * Math.cos(-angleY) - z * Math.sin(-angleY);
+              const nz = x * Math.sin(-angleY) + z * Math.cos(-angleY);
+              cube.position.x = nx;
+              cube.position.z = nz;
+              cube.rotation.y = -angleY;
+            }
+            // Rotate middle layer (Y == 0) around X-axis coherently
+            else {
+              const ny = y * Math.cos(angleX) - z * Math.sin(angleX);
+              const nz = y * Math.sin(angleX) + z * Math.cos(angleX);
+              cube.position.y = ny;
+              cube.position.z = nz;
+              cube.rotation.x = angleX;
+            }
+          });
+        }
+
         renderer.render(scene, camera);
       }
       animateBook();
